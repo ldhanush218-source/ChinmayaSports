@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Badminton — Chinmaya Sport</title>
+  <style>
+    /* ==========================================================================
+       CHINMAYA SPORT — design tokens
+       Badminton edition: --accent overridden to --badminton (#7C3AED)
+       ========================================================================== */
+
+    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --bg: #F2F5EF;
+      --surface: #FFFFFF;
+      --surface-alt: #EAEEE3;
+      --line: #DCE3D6;
+      --ink: #12211A;
+      --ink-soft: #52604F;
+      --ink-faint: #8C9789;
+
+      --brand: #1B8A5A;
+      --brand-dark: #0F5C3B;
+      --amber: #F2A93B;
+      --live: #E11D48;
+
+      --badminton: #7C3AED;
+      --badminton-dark: #5B21B6;
+
+      --accent: var(--badminton);
+      --accent-dark: var(--badminton-dark);
+
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 10px;
+      --shadow-card: 0 1px 2px rgba(18, 33, 26, .04), 0 10px 24px -12px rgba(18, 33, 26, .18);
+
+      --font-display: 'Anton', 'Arial Narrow', sans-serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    /* ---------- header ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(242, 245, 239, .85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .site-header .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .brand-mark svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .brand-word {
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: .01em;
+      line-height: 1;
+    }
+
+    .brand-word small {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .16em;
+      color: var(--ink-faint);
+      font-weight: 400;
+      margin-top: 3px;
+      text-transform: uppercase;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .main-nav a {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      transition: color .15s ease;
+    }
+
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: var(--ink);
+    }
+
+    .profile-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: var(--surface-alt);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-toggle {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--surface-alt);
+      border: 1px solid var(--line);
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width:840px) {
+      .main-nav {
+        position: fixed;
+        inset: 76px 0 auto 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        background: var(--surface);
+        border-bottom: 1px solid var(--line);
+        padding: 8px 24px 20px;
+        transform: translateY(-8px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .18s ease, transform .18s ease;
+      }
+
+      .main-nav.open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .main-nav a {
+        padding: 12px 0;
+        width: 100%;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+    }
+
+    /* ---------- sport hero ---------- */
+    .sport-hero {
+      background: linear-gradient(160deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      padding: 52px 0 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sport-hero .wrap {
+      position: relative;
+      z-index: 2;
+    }
+
+    .sport-hero .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .8);
+      margin-bottom: 22px;
+    }
+
+    .sport-hero .badge-lg {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .16);
+      border: 1px solid rgba(255, 255, 255, .3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .sport-hero .badge-lg svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .sport-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 8vw, 84px);
+      line-height: .92;
+      margin: 0 0 12px;
+    }
+
+    .sport-hero p {
+      font-size: 16px;
+      max-width: 52ch;
+      color: rgba(255, 255, 255, .86);
+      margin: 0;
+    }
+
+    .sport-hero .court-lines {
+      position: absolute;
+      inset: 0;
+      opacity: .12;
+      z-index: 1;
+    }
+
+    /* ---------- scoreboard stat strip ---------- */
+    .scoreboard {
+      margin-top: -34px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .scoreboard .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width:720px) {
+      .scoreboard .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .tile {
+      background: #12211A;
+      border-radius: var(--radius-md);
+      padding: 20px 18px;
+      box-shadow: 0 14px 28px -14px rgba(0, 0, 0, .4);
+    }
+
+    .tile .num {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 34px;
+      color: var(--accent);
+      letter-spacing: .02em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tile .label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .55);
+      margin-top: 4px;
+    }
+
+    /* ---------- tabs ---------- */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin: 48px 0 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 12px 4px;
+      margin-right: 22px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink-faint);
+      border-bottom: 3px solid transparent;
+      transition: color .15s ease, border-color .15s ease;
+    }
+
+    .tab-btn.active {
+      color: var(--ink);
+      border-color: var(--accent);
+    }
+
+    .tab-panel {
+      display: none;
+      padding-bottom: 70px;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* ---------- filters ---------- */
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .filter-chip {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink-soft);
+    }
+
+    .filter-chip.active {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #fff;
+    }
+
+    /* ---------- fixtures toolbar & actions ---------- */
+    .fx-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .fx-add-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: none;
+      background: var(--ink);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .fx-side {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .fx-btn-solid {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .fx-input {
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      width: 100%;
+      background: var(--surface);
+      color: var(--ink);
+    }
+
+    .fx-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    /* ---------- fixture cards ---------- */
+    .fixture-card {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      align-items: center;
+      gap: 20px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width:640px) {
+      .fixture-card {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+
+    .fixture-date {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
+
+    .fixture-date strong {
+      display: block;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .fixture-teams {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .team {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .jersey {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .vs {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+
+    .venue {
+      font-size: 13px;
+      color: var(--ink-faint);
+      margin-top: 2px;
+    }
+
+    .status-pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .status-live {
+      background: #FDE2E7;
+      color: var(--live);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-live .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--live);
+      animation: pulse 1.4s infinite;
+    }
+
+    .status-upcoming {
+      background: var(--surface-alt);
+      color: var(--ink-soft);
+    }
+
+    .status-done {
+      background: #D9E8F9;
+      color: var(--badminton-dark);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .25; }
+    }
+
+    /* ---------- roster grid ---------- */
+    .roster-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width:900px) {
+      .roster-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width:640px) {
+      .roster-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .player-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      text-align: left;
+    }
+
+    .player-card .jersey {
+      width: 46px;
+      height: 46px;
+      font-size: 16px;
+      margin-bottom: 14px;
+    }
+
+    .player-card h4 {
+      margin: 0 0 2px;
+      font-size: 15px;
+    }
+
+    .player-card .role {
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+
+    .player-card .team-tag {
+      margin-top: 10px;
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--surface-alt);
+      color: var(--ink-soft);
+    }
+
+    /* ---------- empty state ---------- */
+    .ct-empty { text-align: center; padding: 36px 16px; border: 2px dashed var(--line); border-radius: var(--radius-md); margin-bottom: 28px; color: var(--ink-faint); grid-column: 1 / -1; }
+    .ct-empty-icon { font-size: 28px; margin-bottom: 8px; opacity: .5; }
+    .ct-empty p { margin: 0; font-size: 14px; }
+
+    /* ---------- create team ---------- */
+    .ct-wrapper {
+      max-width: 680px;
+    }
+
+    .ct-team-input {
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .ct-team-input input {
+      width: 100%;
+      padding: 16px 20px 16px 52px;
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: .01em;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      color: var(--ink);
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+
+    .ct-team-input input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(124, 58, 237, .12);
+    }
+
+    .ct-team-input input::placeholder {
+      color: var(--ink-faint);
+      font-family: var(--font-display);
+    }
+
+    .ct-team-input .ct-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--ink-faint);
+    }
+
+    .ct-players-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .ct-players-header h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ct-count-pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      background: var(--surface-alt);
+      border: 1px solid var(--line);
+      padding: 4px 12px;
+      border-radius: 999px;
+      color: var(--ink-soft);
+    }
+
+    .ct-btn-add {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      border: 2px dashed var(--line);
+      background: var(--surface);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--accent);
+      transition: border-color .15s ease, background .15s ease;
+    }
+
+    .ct-btn-add:hover {
+      border-color: var(--accent);
+      background: rgba(124, 58, 237, .06);
+    }
+
+    .ct-players-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+      min-height: 60px;
+    }
+
+    .ct-player-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      animation: ctSlideIn .25s ease forwards;
+      transition: border-color .15s ease, opacity .2s ease, transform .2s ease;
+    }
+
+    .ct-player-row:hover {
+      border-color: var(--accent);
+    }
+
+    @keyframes ctSlideIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .ct-player-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .ct-player-row input {
+      flex: 2;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--bg);
+      transition: border-color .15s ease;
+    }
+
+    .ct-player-row input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .ct-player-row input::placeholder {
+      color: var(--ink-faint);
+      font-weight: 400;
+    }
+
+    .ct-player-row select {
+      flex: 1.2;
+      min-width: 140px;
+      padding: 10px 32px 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--bg);
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238C9789' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      cursor: pointer;
+      transition: border-color .15s ease;
+    }
+
+    .ct-player-row select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .ct-btn-remove {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: none;
+      color: var(--ink-faint);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background .15s ease, color .15s ease, border-color .15s ease;
+    }
+
+    .ct-btn-remove:hover {
+      background: #FDE2E7;
+      color: var(--live);
+      border-color: #FDE2E7;
+    }
+
+    .ct-submit-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: .02em;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+      box-shadow: 0 4px 16px rgba(124, 58, 237, .25);
+    }
+
+    .ct-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(124, 58, 237, .35);
+    }
+
+    .ct-submit-btn:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 640px) {
+      .ct-player-row {
+        flex-wrap: wrap;
+      }
+      .ct-player-row input,
+      .ct-player-row select {
+        flex: 1 1 100%;
+      }
+    }
+
+    /* ---------- modal (shared) ---------- */
+    .ct-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(18, 33, 26, .5);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+      padding: 20px;
+    }
+
+    .ct-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .ct-modal {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, .2);
+      transform: scale(.94);
+      transition: transform .2s ease;
+      text-align: left;
+    }
+
+    .ct-modal-overlay.active .ct-modal {
+      transform: scale(1);
+    }
+
+    .ct-modal h3 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      margin: 0 0 8px;
+    }
+
+    .ct-modal p {
+      color: var(--ink-soft);
+      font-size: 15px;
+      margin: 0 0 20px;
+    }
+
+    .ct-modal-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--ink);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ---------- section back link ---------- */
+    .section-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-top: 28px;
+    }
+
+    .section-back:hover {
+      color: var(--ink);
+    }
+
+    /* ---------- badminton scoreboard ---------- */
+    .bm-score-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .bm-score-header {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .bm-team-block {
+      text-align: center;
+      flex: 1;
+    }
+
+    .bm-team-name {
+      font-family: var(--font-display);
+      font-size: 20px;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .bm-team-games {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 40px;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .bm-team-points {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--ink-soft);
+      margin-top: 4px;
+    }
+
+    .bm-divider {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      color: var(--ink-faint);
+      font-weight: bold;
+      padding: 0 16px;
+      text-align: center;
+    }
+
+    .bm-game-scores {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-soft);
+      text-align: center;
+      margin-bottom: 12px;
+      letter-spacing: .02em;
+    }
+
+    .bm-game-badge {
+      background: var(--surface-alt);
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin: 0 2px;
+      font-weight: 700;
+    }
+
+    .bm-half-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    .bm-events {
+      margin-top: 14px;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .bm-event {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      width: 48%;
+      background: var(--surface);
+      box-sizing: border-box;
+    }
+
+    .bm-event.left-event {
+      align-self: flex-start;
+      border-left: 3px solid var(--badminton);
+    }
+
+    .bm-event.right-event {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+      border-right: 3px solid var(--badminton);
+    }
+
+    .bm-event-game {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--accent);
+      min-width: 38px;
+    }
+
+    .bm-event-icon {
+      font-size: 16px;
+      min-width: 22px;
+      text-align: center;
+    }
+
+    .bm-event-text {
+      flex: 1;
+      font-weight: 600;
+    }
+
+    .bm-event-team {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--surface-alt);
+      color: var(--ink-soft);
+    }
+
+    /* ---------- scoring controls ---------- */
+    .bm-controls {
+      border-top: 1px solid var(--line);
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+
+    .bm-ctrl-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .bm-ctrl-btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 14px 10px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--ink);
+      transition: border-color .15s ease, background .15s ease;
+      text-align: center;
+    }
+
+    .bm-ctrl-btn:hover {
+      border-color: var(--accent);
+      background: rgba(124, 58, 237, .05);
+    }
+
+    .bm-ctrl-btn.point {
+      background: rgba(124, 58, 237, .08);
+      border-color: var(--accent);
+      color: var(--badminton-dark);
+    }
+
+    .bm-ctrl-btn.serve {
+      background: #FFF8E1;
+      border-color: var(--amber);
+      color: #9A7312;
+    }
+
+    /* ---------- match result ---------- */
+    .bm-result {
+      font-family: var(--font-display);
+      font-size: 18px;
+      margin: 16px 0 0;
+      padding: 14px 18px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      border-radius: var(--radius-md);
+      text-align: center;
+    }
+
+    /* ---------- badminton court lineup ---------- */
+    .bm-pitch {
+      background: linear-gradient(180deg, #1b8a5a 0%, #0f5c3b 100%);
+      border-radius: var(--radius-md);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+      margin: 20px auto 0;
+      border: 3px solid rgba(255, 255, 255, .25);
+      max-width: 360px;
+      aspect-ratio: 3 / 4;
+    }
+    .bm-pitch-inner { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+    .bm-pitch-lines { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; }
+    .bm-pitch-team { height: calc(50% - 10px); display: flex; flex-direction: column; justify-content: space-between; padding: 12px 10px; }
+    .bm-pitch-team-header { display: flex; justify-content: space-between; align-items: center; padding: 0 12px; }
+    .bm-pitch-team-name { font-family: var(--font-display); font-size: 16px; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.4); }
+    .bm-pitch-row { display: flex; align-items: center; justify-content: center; height: 74px; position: relative; }
+    .bm-pitch-player { display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 60px; transition: transform .2s ease; }
+    .bm-pitch-jersey { width: 38px; height: 38px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.3); position: relative; }
+    .bm-pitch-jersey.home { background: linear-gradient(135deg, #7c3aed, #5b21b6); border: 2px solid rgba(255,255,255,.4); }
+    .bm-pitch-jersey.away { background: linear-gradient(135deg, #f2a93b, #c57e15); border: 2px solid rgba(255,255,255,.4); }
+    .bm-pitch-pname { font-family: var(--font-mono); font-size: 9px; font-weight: 700; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.6); text-align: center; max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space:nowrap; letter-spacing: .02em; }
+    .bm-pitch-divider { height: 4px; background: rgba(255, 255, 255, .5); margin: 0; position: relative; }
+    .bm-pitch-divider::after { content: ''; position: absolute; left: 0; right: 0; top: -6px; bottom: -6px; background-image: repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(255,255,255,.4) 3px, rgba(255,255,255,.4) 6px); }
+    .bm-pitch-divider-label { text-align: center; margin-top: -12px; margin-bottom: 4px; position: relative; z-index: 5; }
+    .bm-pitch-divider-label span { font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: #fff; background: var(--accent-dark); padding: 2px 10px; border-radius: 4px; }
+    .bm-lineup-title { font-family: var(--font-display); font-size: 22px; margin: 28px 0 4px; display: flex; align-items: center; gap: 10px; }
+  </style>
+</head>
+
+<body style="--accent:var(--badminton); --accent-dark:var(--badminton-dark);">
+
+  <header class="site-header">
+    <div class="wrap">
+      <a href="../home.html" class="brand">
+        <span class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M4 12c4-6 12-6 16 0" stroke="#F2A93B" stroke-width="2" stroke-linecap="round" />
+            <circle cx="12" cy="12" r="2.4" fill="#F2A93B" />
+          </svg>
+        </span>
+        <span class="brand-word">CHINMAYA SPORT<small>Annual Meet · 2026</small></span>
+      </a>
+      <nav class="main-nav" id="mainNav">
+        <a href="../home.html">Home</a>
+        <a href="badminton.html" class="active">Sports</a>
+        <a href="#fixtures">Fixtures</a>
+        <a href="#about">About</a>
+      </nav>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke="#12211A" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+        <a href="#" class="profile-btn" aria-label="Profile">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+            <circle cx="12" cy="8" r="3.4" stroke="#12211A" stroke-width="1.8" />
+            <path d="M5 20c1.6-3.6 5-5 7-5s5.4 1.4 7 5" stroke="#12211A" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="sport-hero">
+    <!-- Badminton Court background SVG -->
+    <svg class="court-lines" viewBox="0 0 400 200" preserveAspectRatio="none">
+      <rect x="10" y="10" width="380" height="180" fill="none" stroke="#fff" stroke-width="1" />
+      <line x1="200" y1="10" x2="200" y2="190" stroke="#fff" stroke-width="1.5" />
+      <!-- Doubles side lines -->
+      <line x1="10" y1="20" x2="390" y2="20" stroke="#fff" stroke-width="0.8" />
+      <line x1="10" y1="180" x2="390" y2="180" stroke="#fff" stroke-width="0.8" />
+      <!-- Short service lines -->
+      <line x1="150" y1="10" x2="150" y2="190" stroke="#fff" stroke-width="0.8" />
+      <line x1="250" y1="10" x2="250" y2="190" stroke="#fff" stroke-width="0.8" />
+      <!-- Center service lines -->
+      <line x1="10" y1="100" x2="150" y2="100" stroke="#fff" stroke-width="0.8" />
+      <line x1="250" y1="100" x2="390" y2="100" stroke="#fff" stroke-width="0.8" />
+    </svg>
+    <div class="wrap">
+      <a href="../home.html" class="back-link">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+          <path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        All sports
+      </a>
+      <span class="badge-lg">
+        <!-- Shuttlecock icon -->
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M6 7l6-5 6 5M12 2v20M4 12h16" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="12" cy="18" r="3" stroke="#fff" stroke-width="1.5" />
+        </svg>
+      </span>
+      <h1>Badminton</h1>
+      <p>Fixtures, category brackets and match sheet logs for the Chinmaya Sport annual meet — Singles and Doubles court tracking updated live.</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="scoreboard">
+      <div class="grid">
+        <div class="tile"><div class="num" id="statMatches">0</div><div class="label">Matches</div></div>
+        <div class="tile"><div class="num" id="statPlayers">0</div><div class="label">Players</div></div>
+        <div class="tile"><div class="num" id="statGames">0</div><div class="label">Games Played</div></div>
+        <div class="tile"><div class="num" id="statCourts">Court A</div><div class="label">Primary Court</div></div>
+      </div>
+    </div>
+
+    <a href="../home.html" class="section-back">
+      <svg viewBox="0 0 24 24" width="12" height="12" fill="none">
+        <path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      Back to all sports
+    </a>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="fixtures">Fixtures</button>
+      <button class="tab-btn" data-tab="players">Players</button>
+      <button class="tab-btn" data-tab="create-team">Create Entry</button>
+      <button class="tab-btn" data-tab="scorecard" onclick="onScorecardTabOpen()">Match Centre</button>
+    </div>
+
+    <!-- FIXTURES -->
+    <div class="tab-panel active" id="panel-fixtures">
+      <div class="fx-toolbar">
+        <div class="filter-row" style="margin-bottom:0;">
+          <button class="filter-chip active" data-filter="all">All</button>
+          <button class="filter-chip" data-filter="live">Live</button>
+          <button class="filter-chip" data-filter="upcoming">Upcoming</button>
+          <button class="filter-chip" data-filter="done">Completed</button>
+        </div>
+        <button type="button" class="fx-add-btn" onclick="openAddFixtureModal()">+ Add Match</button>
+      </div>
+      <div id="fixtureList"></div>
+    </div>
+
+    <!-- PLAYERS -->
+    <div class="tab-panel" id="panel-players">
+      <div class="roster-grid" id="rosterGrid"></div>
+    </div>
+
+    <!-- MATCH CENTRE -->
+    <div class="tab-panel" id="panel-scorecard">
+      <div style="margin-bottom:18px;">
+        <select id="scMatchSelect" onchange="renderMatchCentre(this.value)" style="padding:10px 36px 10px 14px;border:1px solid var(--line);border-radius:10px;font-family:var(--font-body);font-size:14px;font-weight:600;color:var(--ink);background:var(--surface);appearance:none;-webkit-appearance:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238C9789' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 12px center;cursor:pointer;min-width:260px;">
+          <option value="" disabled selected>Select a match</option>
+        </select>
+      </div>
+      <div id="matchCentreContainer"></div>
+    </div>
+
+    <!-- CREATE TEAM -->
+    <div class="tab-panel" id="panel-create-team">
+      <div class="ct-wrapper">
+        <p style="font-size:15px; color:var(--ink-soft); margin:0 0 24px; max-width:52ch;">
+          Add a singles entry or doubles squad to register players into the tournament bracket.
+        </p>
+        <form id="ctForm" onsubmit="ctSubmit(event)">
+          <div class="ct-team-input">
+            <span class="ct-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+                <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <input type="text" id="ctTeamName" placeholder="Entry / Team name (e.g. Tagore Singles)" required>
+          </div>
+
+          <div style="margin-bottom:20px;">
+            <select id="ctCategory" class="fx-input" onchange="ctUpdateCategory()" style="font-weight:600;" required>
+              <option value="Singles">👤 Singles Match (1 Player)</option>
+              <option value="Doubles">👥 Doubles Match (2 Players)</option>
+            </select>
+          </div>
+
+          <div class="ct-players-header">
+            <h3>Entry Roster <span class="ct-count-pill" id="ctCountPill">0 / 2</span></h3>
+            <button type="button" class="ct-btn-add" id="ctAddBtn" onclick="ctAddPlayer()">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+              </svg>
+              Add Player
+            </button>
+          </div>
+          <div class="ct-players-list" id="ctPlayersList">
+            <div class="ct-empty" id="ctEmpty">
+              <div class="ct-empty-icon">🏸</div>
+              <p>Click <strong>"Add Player"</strong> to write entry rosters</p>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button type="button" class="ct-btn-add" style="flex:1; justify-content:center; padding:16px;" onclick="ctCancel()">← Back</button>
+            <button type="submit" class="ct-submit-btn" style="flex:2;">REGISTER ENTRY</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer" style="border-top:1px solid var(--line); padding:36px 0 46px;">
+    <div class="wrap" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+      <p style="margin:0; font-size:13px; color:var(--ink-faint); font-family:var(--font-mono);">CHINMAYA SPORT — ANNUAL MEET 2026</p>
+      <p style="margin:0; font-size:13px; color:var(--ink-faint); font-family:var(--font-mono);">BADMINTON · INDOOR HALL COURT A</p>
+    </div>
+  </footer>
+
+  <script>
+    // =========================================================================
+    // Site-wide nav
+    // =========================================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('navToggle');
+      const nav = document.getElementById('mainNav');
+      if (toggle && nav) {
+        toggle.addEventListener('click', () => {
+          const isOpen = nav.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', String(isOpen));
+        });
+      }
+    });
+
+    // =========================================================================
+    // STATE
+    // =========================================================================
+    const BM_ACCENT = '#7C3AED';
+    const API_BASE = 'http://localhost:5001/api/badminton';
+
+    let teamsData = [];
+    let fixtures = [];
+    let fxIdCounter = 0;
+    let currentFxFilter = 'all';
+
+    async function initPage() {
+      try {
+        const [tRes, fRes] = await Promise.all([fetch(`${API_BASE}/teams`), fetch(`${API_BASE}/fixtures`)]);
+        if (tRes.ok) { const { data } = await tRes.json(); teamsData = data.map(t => ({ _id: t._id, name: t.name, category: t.category||'Singles', players: t.players })); }
+        if (fRes.ok) {
+          const { data } = await fRes.json();
+          fixtures = data.map(f => ({ _id: f._id, id: f._id, date: f.date||'', time: f.time||'', teamA: f.teamA, teamB: f.teamB, venue: f.venue||'', status: f.status||'upcoming', category: f.category||'Singles', match: f.match||null, score: f.score||null }));
+          fxIdCounter = fixtures.length;
+        }
+      } catch(err) { console.warn('Backend not reachable:', err.message); }
+
+      // Pre-defined teams — always available even when backend/DB is offline
+      if (!teamsData.length) {
+        teamsData = [
+          { name: 'Gandhi', category: 'Singles', players: [
+            { number: 1,  name: 'Rohan Mehta',   role: 'Singles Player', captain: true,  viceCaptain: false },
+            { number: 2,  name: 'Varun Bose',    role: 'Singles Player', captain: false, viceCaptain: true  },
+            { number: 3,  name: 'Dev Gupta',     role: 'Doubles Player', captain: false, viceCaptain: false },
+            { number: 4,  name: 'Amit Roy',      role: 'Doubles Player', captain: false, viceCaptain: false },
+            { number: 5,  name: 'Rohit Menon',   role: 'Doubles Player', captain: false, viceCaptain: false },
+            { number: 6,  name: 'Vivek Sharma',  role: 'Singles Player', captain: false, viceCaptain: false },
+            { number: 7,  name: 'Subodh Rao',    role: 'Doubles Player', captain: false, viceCaptain: false },
+            { number: 8,  name: 'Manoj Vyas',    role: 'Doubles Player', captain: false, viceCaptain: false },
+            { number: 9,  name: 'Sujith Lal',    role: 'Singles Player', captain: false, viceCaptain: false },
+            { number: 10, name: 'Karthik Raja',  role: 'Doubles Player', captain: false, viceCaptain: false },
+            { number: 11, name: 'Anand Kumar',   role: 'Doubles Player', captain: false, viceCaptain: false }
+          ]},
+          { name: 'Nehru', category: 'Singles', players: [
+            { number: 1,  name: 'Kabir Saxena',  role: 'Singles Player', captain: true,  viceCaptain: false },
+            { number: 2,  name: 'Kunal Verma',   role: 'Singles Player', captain: false, viceCaptain: true  },
+            { number: 3,  name: 'Sanjay Patel',  role: 'Doubles Player', captain: false, viceCaptain: false },
+            { number: 4,  name: 'Deepak Nair',   role: 'Doubles Player', captain: false, viceCaptain: false },
+            { number: 5,  name: 'Piyush Pal',    role: 'Doubles Player', captain: false, viceCaptain: false },
+            { number: 6,  name: 'Ajay Jose',     role: 'Singles Player', captain: false, viceCaptain: false },
+            { number: 7,  name: 'Vikram Singh',  role: 'Doubles Player', captain: false, viceCaptain: false },
+            { number: 8,  name: 'Suraj Joshi',   role: 'Doubles Player', captain: false, viceCaptain: false },
+            { number: 9,  name: 'Rahul Sen',     role: 'Singles Player', captain: false, viceCaptain: false },
+            { number: 10, name: 'Arjun Das',     role: 'Doubles Player', captain: false, viceCaptain: false },
+            { number: 11, name: 'Nikhil Iyer',   role: 'Doubles Player', captain: false, viceCaptain: false }
+          ]}
+        ];
+      }
+      renderPlayers(); refreshTeamsDatalist(); applyFxFilter(); updateStats();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const reqTab = urlParams.get('tab');
+      const reqFxId = urlParams.get('fixtureId');
+      if (reqFxId) {
+        goToMatchCentre(String(reqFxId));
+      } else if (reqTab) {
+        const btn = document.querySelector(`.tab-btn[data-tab="${reqTab}"]`);
+        if (btn) btn.click();
+      }
+    }
+    initPage();
+
+    function initials(str) { return str.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase(); }
+
+    // =========================================================================
+    // FIXTURES
+    // =========================================================================
+    function statusPill(f) {
+      if (f.status === 'live') return `<span class="status-pill status-live"><span class="dot"></span>Live</span>`;
+      if (f.status === 'done') return `<span class="status-pill status-done">Full Match</span>`;
+      return `<span class="status-pill status-upcoming">Upcoming</span>`;
+    }
+
+    function fixtureActions(f) {
+      if (f.status === 'upcoming') return `<button type="button" class="fx-btn-solid" onclick="goToMatchCentre('${f.id}')">Start Game</button>`;
+      if (f.status === 'live') return `<button type="button" class="fx-btn-solid" onclick="goToMatchCentre('${f.id}')">Match Centre</button>`;
+      if (f.status === 'done') return `<button type="button" class="fx-btn-solid" style="background:var(--ink-soft);" onclick="goToMatchCentre('${f.id}')">View Result</button>`;
+      return '';
+    }
+
+    function liveScoreText(f) {
+      if (!f.match) return '';
+      return `Game ${f.match.currentGame} (${f.match.pointsA} - ${f.match.pointsB}) · Games: ${f.match.gamesA}-${f.match.gamesB}`;
+    }
+
+    function renderFixtures(list) {
+      const el = document.getElementById('fixtureList');
+      if (!list.length) {
+        el.innerHTML = `<div class="ct-empty"><div class="ct-empty-icon">🏸</div><p>No matches yet — click <strong>"+ Add Match"</strong> to schedule the first tie.</p></div>`;
+        return;
+      }
+      el.innerHTML = list.map(f => `
+    <div class="fixture-card">
+      <div class="fixture-date"><strong>${f.date}</strong>${f.time}</div>
+      <div>
+        <div class="fixture-teams">
+          <span class="team"><span class="jersey" style="background:${BM_ACCENT}">${initials(f.teamA)}</span>${f.teamA}</span>
+          <span class="vs">vs</span>
+          <span class="team"><span class="jersey" style="background:${BM_ACCENT}">${initials(f.teamB)}</span>${f.teamB}</span>
+        </div>
+        <div class="venue">${f.venue}${f.score ? ' · ' + f.score : ''}${f.status === 'live' ? ' · ' + liveScoreText(f) : ''}</div>
+      </div>
+      <div class="fx-side">${statusPill(f)}${fixtureActions(f)}</div>
+    </div>`).join('');
+    }
+
+    function applyFxFilter() {
+      renderFixtures(currentFxFilter === 'all' ? fixtures : fixtures.filter(x => x.status === currentFxFilter));
+    }
+
+    function renderPlayers() {
+      const el = document.getElementById('rosterGrid');
+      const allPlayers = teamsData.flatMap(t => t.players);
+      if (!allPlayers.length) {
+        el.innerHTML = `<div class="ct-empty"><div class="ct-empty-icon">🏸</div><p>No players added yet — create your first entry in the <strong>Create Entry</strong> tab.</p></div>`;
+        return;
+      }
+      el.innerHTML = allPlayers.map(p => {
+        return `<div class="player-card"><span class="jersey" style="background:${BM_ACCENT}">${p.number}</span><h4>${p.name}</h4><div class="role">${p.role}</div><span class="team-tag">${p.team}</span></div>`;
+      }).join('');
+    }
+
+    function totalGames() {
+      return fixtures.reduce((s, f) => f.match ? s + f.match.gamesA + f.match.gamesB : s, 0);
+    }
+
+    function updateStats() {
+      document.getElementById('statPlayers').textContent = teamsData.reduce((s, t) => s + t.players.length, 0);
+      document.getElementById('statMatches').textContent = fixtures.length;
+      document.getElementById('statGames').textContent = totalGames();
+    }
+
+    function persistFixturesLocal() {
+      try { localStorage.setItem('badminton_fixtures', JSON.stringify(fixtures)); } catch(_) {}
+    }
+
+    function saveLiveState(f) {
+      if (!f) return;
+      try {
+        localStorage.setItem('badminton_live_state', JSON.stringify({
+          id: f.id,
+          status: f.status,
+          teamA: f.teamA,
+          teamB: f.teamB,
+          match: f.match
+        }));
+      } catch(_) {}
+    }
+
+    async function saveFixtureState(f) {
+      if (!f) return;
+      persistFixturesLocal();
+      saveLiveState(f);
+      syncFeaturedMatch(f, 'Badminton');
+      try {
+        await fetch(`${API_BASE}/fixtures/${f.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            status: f.status,
+            match: f.match,
+            score: f.score || null
+          })
+        });
+      } catch(err) { console.warn('Failed to save fixture state:', err); }
+    }
+
+    function syncFeaturedMatch(f, sportName) {
+      if (!f) return;
+      let scoreA = 0, scoreB = 0, details = "";
+      if (f.match) {
+        scoreA = f.match.gamesA;
+        scoreB = f.match.gamesB;
+        details = f.status === 'done' ? 'Match Finished' : `Game ${f.match.currentGame} (${f.match.pointsA} - ${f.match.pointsB})`;
+      }
+      const featured = {
+        id: f.id,
+        sport: sportName,
+        teamA: f.teamA,
+        teamB: f.teamB,
+        scoreA: scoreA,
+        scoreB: scoreB,
+        status: f.status,
+        details: details,
+        link: `sports/${sportName.toLowerCase()}.html?tab=scorecard&fixtureId=${f.id}`
+      };
+      localStorage.setItem('featured_match', JSON.stringify(featured));
+    }
+
+    // tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`panel-${btn.dataset.tab}`).classList.add('active');
+      });
+    });
+
+    // fixture filters
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        currentFxFilter = chip.dataset.filter;
+        applyFxFilter();
+      });
+    });
+
+    // =========================================================================
+    // CREATE TEAM / ENTRY
+    // =========================================================================
+    function ctRows() { return document.querySelectorAll('#ctPlayersList .ct-player-row'); }
+
+    function ctUpdateCategory() {
+      const cat = document.getElementById('ctCategory').value;
+      const rows = ctRows();
+      document.getElementById('ctCountPill').textContent = `${rows.length} / ${cat === 'Singles' ? 1 : 2}`;
+      ctRenumber();
+    }
+
+    function ctAddPlayer() {
+      const list = document.getElementById('ctPlayersList');
+      const rows = ctRows();
+      const cat = document.getElementById('ctCategory').value;
+      const max = cat === 'Singles' ? 1 : 2;
+      if (rows.length >= max) { ctModal('Entry Full', `${cat} category allows max ${max} players.`); return; }
+      const num = rows.length + 1;
+      const row = document.createElement('div');
+      row.className = 'ct-player-row';
+      row.innerHTML = `
+        <span class="ct-player-num">${num}</span>
+        <input type="text" placeholder="Player name" style="flex:3;" required>
+        <button type="button" class="ct-btn-remove" onclick="ctRemovePlayer(this)" title="Remove">✕</button>`;
+      list.appendChild(row);
+      ctUpdateCategory();
+      row.querySelector('input').focus();
+    }
+
+    function ctRemovePlayer(btn) {
+      const row = btn.closest('.ct-player-row');
+      row.style.opacity = '0'; row.style.transform = 'translateX(16px)';
+      setTimeout(() => { row.remove(); ctUpdateCategory(); }, 200);
+    }
+
+    function ctRenumber() { ctRows().forEach((r, i) => r.querySelector('.ct-player-num').textContent = i + 1); }
+
+    function ctModal(title, msg) {
+      document.getElementById('ctModalTitle').textContent = title;
+      document.getElementById('ctModalBody').textContent = msg;
+      document.getElementById('ctModalOverlay').classList.add('active');
+    }
+    function ctCloseModal() { document.getElementById('ctModalOverlay').classList.remove('active'); }
+
+    function ctCancel() {
+      document.getElementById('ctForm').reset();
+      document.querySelectorAll('#ctPlayersList .ct-player-row').forEach(r => r.remove());
+      document.getElementById('ctEmpty').style.display = '';
+      ctUpdateCategory();
+      document.querySelector('.tab-btn[data-tab="fixtures"]').click();
+    }
+
+    async function ctSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('ctTeamName').value.trim();
+      const cat = document.getElementById('ctCategory').value;
+      const rows = ctRows();
+      const requiredLen = cat === 'Singles' ? 1 : 2;
+      if (!name) { ctModal('Missing Info', 'Please enter an entry name.'); return; }
+      if (teamsData.some(t => t.name.toLowerCase() === name.toLowerCase())) { ctModal('Duplicate Entry', `An entry named "${name}" already exists.`); return; }
+      if (rows.length !== requiredLen) { ctModal('Roster Size Error', `You need exactly ${requiredLen} players for ${cat}.`); return; }
+
+      const newPlayers = [];
+      let ok = true;
+      rows.forEach((r, i) => {
+        const n = r.querySelector('input').value.trim();
+        if (!n) ok = false;
+        newPlayers.push({ number: i + 1, name: n, role: `${cat} Player`, team: name });
+      });
+      if (!ok) { ctModal('Incomplete', 'Fill in all player names.'); return; }
+
+      try {
+        const res = await fetch(`${API_BASE}/teams`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, category: cat, players: newPlayers, sport: 'badminton' }) });
+        if (!res.ok) { const e = await res.json(); ctModal('Save Error', e.message || 'Failed to save entry.'); return; }
+        const { data: saved } = await res.json();
+        teamsData.push({ _id: saved._id, name: saved.name, category: saved.category||cat, players: saved.players });
+      } catch(err) { teamsData.push({ name, category: cat, players: newPlayers }); }
+
+      renderPlayers(); refreshTeamsDatalist(); updateStats();
+      ctModal('Entry Registered! 🏸', `"${name}" with ${newPlayers.length} players has been added.`);
+      document.getElementById('ctForm').reset();
+      document.querySelectorAll('#ctPlayersList .ct-player-row').forEach(r => r.remove());
+      document.getElementById('ctEmpty').style.display = '';
+      ctUpdateCategory();
+    }
+
+    // =========================================================================
+    // ADD FIXTURE
+    // =========================================================================
+    function refreshTeamsDatalist() {
+      const dl = document.getElementById('teamsDatalist');
+      dl.innerHTML = teamsData.map(t => `<option value="${t.name}">`).join('');
+    }
+
+    function openAddFixtureModal() { refreshTeamsDatalist(); document.getElementById('fxModalOverlay').classList.add('active'); }
+    function closeAddFixtureModal() { document.getElementById('fxModalOverlay').classList.remove('active'); }
+
+    async function submitFixture(e) {
+      e.preventDefault();
+      const teamA = document.getElementById('fxTeamA').value.trim();
+      const teamB = document.getElementById('fxTeamB').value.trim();
+      const date = document.getElementById('fxDate').value.trim();
+      const time = document.getElementById('fxTime').value.trim();
+      const venue = document.getElementById('fxVenue').value.trim();
+      if (!teamA || !teamB || teamA === teamB) { ctModal('Check Entries', 'Enter two different registration entry names.'); return; }
+
+      const tAObj = teamsData.find(t => t.name === teamA);
+      const tBObj = teamsData.find(t => t.name === teamB);
+      if (tAObj && tBObj && tAObj.category !== tBObj.category) {
+        ctModal('Category Mismatch', `Cannot match ${tAObj.category} with ${tBObj.category}. Both must be of the same type.`);
+        return;
+      }
+      const cat = tAObj ? tAObj.category : 'Singles';
+
+      try {
+        const res = await fetch(`${API_BASE}/fixtures`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ teamA, teamB, date, time, venue, status: 'upcoming', category: cat, sport: 'badminton' }) });
+        if (!res.ok) { const e = await res.json(); ctModal('Save Error', e.message || 'Failed to save match.'); return; }
+        const { data: saved } = await res.json();
+        fixtures.push({ _id: saved._id, id: saved._id, date, time, teamA, teamB, venue, status: 'upcoming', category: cat, match: null });
+      } catch(err) { fxIdCounter++; fixtures.push({ id: fxIdCounter, date, time, teamA, teamB, venue, status: 'upcoming', category: cat }); }
+
+      closeAddFixtureModal();
+      document.getElementById('fxForm').reset();
+      currentFxFilter = 'all';
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.filter === 'all'));
+      persistFixturesLocal();
+      applyFxFilter(); updateStats();
+    }
+
+    // =========================================================================
+    // MATCH CENTRE
+    // =========================================================================
+    let scSelectedFixtureId = null;
+
+    function goToMatchCentre(fixtureId) {
+      scSelectedFixtureId = fixtureId;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      const scBtn = document.querySelector('.tab-btn[data-tab="scorecard"]');
+      const scPanel = document.getElementById('panel-scorecard');
+      if (scBtn) scBtn.classList.add('active');
+      if (scPanel) scPanel.classList.add('active');
+      refreshMatchSelect();
+      const select = document.getElementById('scMatchSelect');
+      if (select) select.value = fixtureId;
+      renderMatchCentre(fixtureId);
+    }
+
+    function refreshMatchSelect() {
+      const select = document.getElementById('scMatchSelect');
+      if (!select) return;
+      if (!fixtures.length) { select.innerHTML = '<option value="" disabled selected>No matches scheduled yet</option>'; return; }
+      select.innerHTML = '<option value="" disabled selected>Select a match</option>' + fixtures.map(f =>
+        `<option value="${f.id}">${f.teamA} vs ${f.teamB} (${(f.status || 'upcoming').toUpperCase()})</option>`
+      ).join('');
+    }
+
+    function onScorecardTabOpen() {
+      refreshMatchSelect();
+      if (!fixtures.length) {
+        document.getElementById('matchCentreContainer').innerHTML = '<div class="ct-empty"><div class="ct-empty-icon">📊</div><p>No matches added yet. Go to <strong>Fixtures</strong> tab first.</p></div>';
+        return;
+      }
+      if (!scSelectedFixtureId || !fixtures.some(x => x.id == scSelectedFixtureId)) {
+        const liveFx = fixtures.find(x => x.status === 'live');
+        scSelectedFixtureId = liveFx ? liveFx.id : fixtures[0].id;
+      }
+      document.getElementById('scMatchSelect').value = scSelectedFixtureId;
+      renderMatchCentre(scSelectedFixtureId);
+    }
+
+    function renderMatchCentre(fixtureId) {
+      scSelectedFixtureId = fixtureId;
+      const f = fixtures.find(x => x.id == scSelectedFixtureId);
+      if (!f) return;
+      const container = document.getElementById('matchCentreContainer');
+      let html = '';
+
+      if (f.status === 'upcoming') {
+        html = `<div class="bm-score-card">
+          <div class="bm-score-header">
+            <div class="bm-team-block"><div class="bm-team-name">${f.teamA}</div><div class="bm-team-games">0</div></div>
+            <div class="bm-divider">VS</div>
+            <div class="bm-team-block"><div class="bm-team-name">${f.teamB}</div><div class="bm-team-games">0</div></div>
+          </div>
+          <div class="bm-half-label">KICK OFF · ${f.date} ${f.time} (${f.category})</div>
+          <div class="bm-controls"><button type="button" class="ct-submit-btn" style="font-size:16px;" onclick="kickOff('${f.id}')">🏸 Start Match</button></div>
+        </div>`;
+      } else if (f.status === 'live' || f.status === 'done') {
+        const m = f.match;
+        const halfLabel = f.status === 'done' ? 'MATCH COMPLETED' : `GAME ${m.currentGame} IN PROGRESS (${f.category})`;
+
+        html += `<div class="bm-score-card">
+          <div class="bm-score-header">
+            <div class="bm-team-block">
+              <div class="bm-team-name">${f.teamA} ${m.serving === 'A' ? '🏸' : ''}</div>
+              <div class="bm-team-games">${m.gamesA}</div>
+              <div class="bm-team-points">${f.status === 'live' ? m.pointsA + ' pts' : ''}</div>
+            </div>
+            <div class="bm-divider">–</div>
+            <div class="bm-team-block">
+              <div class="bm-team-name">${f.teamB} ${m.serving === 'B' ? '🏸' : ''}</div>
+              <div class="bm-team-games">${m.gamesB}</div>
+              <div class="bm-team-points">${f.status === 'live' ? m.pointsB + ' pts' : ''}</div>
+            </div>
+          </div>
+
+          <!-- Badminton Match Info Banner -->
+          <div style="background:rgba(255,255,255,0.06); border:1px solid var(--line); border-radius:8px; padding:10px 14px; margin:12px auto; max-width:420px; text-align:center; font-family:var(--font-mono); font-size:12px; color:var(--ink);">
+            🏸 <strong>Best of ${f.maxGames || 3} Games Match</strong> (21 Points per Game) &nbsp;•&nbsp; 🎯 <strong>${f.status === 'done' ? 'Match Completed' : `Game ${m.currentGame} Target: 21 Points`}</strong>
+          </div>`;
+
+        // Game score strip sheet
+        if (m.gameHistory.length > 0 || f.status === 'live') {
+          const hist = [...m.gameHistory];
+          if (f.status === 'live') hist.push({ pointsA: m.pointsA, pointsB: m.pointsB, active: true });
+          
+          html += `<div class="bm-game-scores">Score sheet: ` + hist.map((h, i) => 
+            `<span class="bm-game-badge" ${h.active ? 'style="border: 1px solid var(--accent);"' : ''}>G${i+1}: ${h.pointsA}-${h.pointsB}</span>`
+          ).join(' ') + `</div>`;
+        }
+
+        html += `<div class="bm-half-label">${halfLabel}</div>`;
+
+        // Score logs timeline
+        if (m.events.length > 0) {
+          html += '<div class="bm-events">';
+          m.events.slice(-5).reverse().forEach(ev => {
+            const isTeamA = ev.team === f.teamA;
+            const sideClass = isTeamA ? 'left-event' : 'right-event';
+            html += `<div class="bm-event ${sideClass}"><span class="bm-event-game">Game ${ev.game}</span><span class="bm-event-icon">⚡</span><span class="bm-event-text">${ev.text}</span><span class="bm-event-team">${ev.team}</span></div>`;
+          });
+          html += '</div>';
+        }
+
+        if (f.status === 'done' && f.score) {
+          html += `<div class="bm-result">${f.score}</div>`;
+          html += `<div style="text-align:center; margin-top:15px; margin-bottom:15px;">
+            <button class="ct-submit-btn" style="background:#10B981; color:white; font-size:14px; padding:10px 20px; border:none; display:inline-flex; align-items:center; gap:8px;" onclick="downloadMatchRecord('${f.id}')">
+              <span>📊 Export to Excel</span>
+            </button>
+          </div>`;
+        }
+
+        // Live controls
+        if (f.status === 'live') {
+          html += `<div class="bm-controls">
+            <p style="font-family:var(--font-mono);font-size:12px;color:var(--ink-faint);letter-spacing:.08em;text-transform:uppercase;margin:0 0 12px;">Add Point & Serve</p>
+            <div class="bm-ctrl-row">
+              <button class="bm-ctrl-btn point" onclick="addPoint('${f.id}','A')">💥 Point ${f.teamA}</button>
+              <button class="bm-ctrl-btn point" onclick="addPoint('${f.id}','B')">💥 Point ${f.teamB}</button>
+            </div>
+            <div class="bm-ctrl-row">
+              <button class="bm-ctrl-btn serve" onclick="setService('${f.id}','A')">🏸 Serve ${f.teamA}</button>
+              <button class="bm-ctrl-btn serve" onclick="setService('${f.id}','B')">🏸 Serve ${f.teamB}</button>
+            </div>
+            <div style="margin-top:16px;display:flex;gap:10px;">
+              <button class="ct-submit-btn" style="font-size:14px;padding:12px;background:var(--ink);" onclick="endMatch('${f.id}')">Force End Match</button>
+            </div></div>`;
+        }
+
+        html += '</div>';
+      }
+
+      // Add Badminton court lineup rendering
+      if (f.status === 'live' || f.status === 'done') {
+        html += renderBadmintonCourtView(f);
+      }
+
+      container.innerHTML = html;
+      syncFeaturedMatch(f, 'Badminton');
+    }
+
+    // =========================================================================
+    // MATCH LOGICS & SCORES
+    // =========================================================================
+    function kickOff(fixtureId) {
+      const f = fixtures.find(x => x.id == fixtureId);
+      if (!f) return;
+      f.status = 'live';
+      f.match = { gamesA: 0, gamesB: 0, pointsA: 0, pointsB: 0, currentGame: 1, gameHistory: [], events: [], serving: 'A' };
+      saveFixtureState(f);
+      applyFxFilter(); updateStats(); renderMatchCentre(fixtureId);
+    }
+
+    function setService(fixtureId, side) {
+      const f = fixtures.find(x => x.id === fixtureId);
+      if (!f || !f.match) return;
+      f.match.serving = side;
+      renderMatchCentre(fixtureId);
+    }
+
+    function addPoint(fixtureId, side) {
+      const f = fixtures.find(x => x.id === fixtureId);
+      if (!f || !f.match) return;
+      const m = f.match;
+      
+      if (side === 'A') m.pointsA++; else m.pointsB++;
+      m.serving = side;
+
+      const scorerTeam = side === 'A' ? f.teamA : f.teamB;
+      m.events.push({ game: m.currentGame, team: scorerTeam, text: `Point scored! (${m.pointsA} - ${m.pointsB})` });
+
+      // Check if game won (BWF Rule: first to 21, must lead by 2, capped at 30)
+      let gameWon = false;
+      if (m.pointsA >= 21 && (m.pointsA - m.pointsB) >= 2) gameWon = true;
+      else if (m.pointsA === 30) gameWon = true;
+
+      let gameWonB = false;
+      if (m.pointsB >= 21 && (m.pointsB - m.pointsA) >= 2) gameWonB = true;
+      else if (m.pointsB === 30) gameWonB = true;
+
+      if (gameWon) {
+        m.gamesA++;
+        m.events.push({ game: m.currentGame, team: f.teamA, text: `🎉 Game ${m.currentGame} won by ${f.teamA}!` });
+        m.gameHistory.push({ pointsA: m.pointsA, pointsB: m.pointsB });
+        m.pointsA = 0; m.pointsB = 0;
+        m.currentGame++;
+      } else if (gameWonB) {
+        m.gamesB++;
+        m.events.push({ game: m.currentGame, team: f.teamB, text: `🎉 Game ${m.currentGame} won by ${f.teamB}!` });
+        m.gameHistory.push({ pointsA: m.pointsA, pointsB: m.pointsB });
+        m.pointsA = 0; m.pointsB = 0;
+        m.currentGame++;
+      }
+
+      // Check match victory (best of 3 games)
+      if (m.gamesA === 2) {
+        f.status = 'done';
+        f.score = `${f.teamA} wins match 2 – ${m.gamesB}`;
+      } else if (m.gamesB === 2) {
+        f.status = 'done';
+        f.score = `${f.teamB} wins match 2 – ${m.gamesA}`;
+      }
+
+      applyFxFilter(); updateStats(); renderMatchCentre(fixtureId);
+    }
+
+    function endMatch(fixtureId) {
+      const f = fixtures.find(x => x.id === fixtureId);
+      if (!f || !f.match) return;
+      f.status = 'done';
+      const m = f.match;
+      if (m.gamesA > m.gamesB) f.score = `${f.teamA} wins match ${m.gamesA}–${m.gamesB}`;
+      else if (m.gamesB > m.gamesA) f.score = `${f.teamB} wins match ${m.gamesB}–${m.gamesA}`;
+      else f.score = `Draw ${m.gamesA}–${m.gamesB}`;
+      applyFxFilter(); updateStats(); renderMatchCentre(fixtureId);
+    }
+
+    function downloadMatchRecord(fixtureId) {
+      const f = fixtures.find(x => x.id === fixtureId);
+      if (!f || !f.match) return;
+      const m = f.match;
+      
+      let csvContent = "";
+      
+      // Match Summary
+      csvContent += "MATCH SUMMARY - BADMINTON\n";
+      csvContent += `Fixture ID,${f.id}\n`;
+      csvContent += `Match,${f.teamA} vs ${f.teamB}\n`;
+      csvContent += `Category,${f.category || "General"}\n`;
+      csvContent += `Date,${f.date}\n`;
+      csvContent += `Time,${f.time}\n`;
+      csvContent += `Venue,${f.venue || "Main Court"}\n`;
+      csvContent += `Status,Completed\n`;
+      csvContent += `Result,${f.score}\n\n`;
+      
+      // Game Stats
+      csvContent += "GAME RESULTS\n";
+      csvContent += `Team,Total Games Won,`;
+      m.gameHistory.forEach((_, i) => {
+        csvContent += `Game ${i + 1},`;
+      });
+      csvContent += "\n";
+      
+      csvContent += `"${f.teamA}",${m.gamesA},`;
+      m.gameHistory.forEach(g => {
+        csvContent += `${g.pointsA},`;
+      });
+      csvContent += "\n";
+      
+      csvContent += `"${f.teamB}",${m.gamesB},`;
+      m.gameHistory.forEach(g => {
+        csvContent += `${g.pointsB},`;
+      });
+      csvContent += "\n\n";
+      
+      // Players list if available
+      const teamAObj = teamsData.find(t => t.name === f.teamA);
+      const teamBObj = teamsData.find(t => t.name === f.teamB);
+      
+      if ((teamAObj && teamAObj.players.length) || (teamBObj && teamBObj.players.length)) {
+        csvContent += "TEAM ROSTERS\n";
+        csvContent += `"${f.teamA} Players",Number,Role,,"${f.teamB} Players",Number,Role\n`;
+        const maxLen = Math.max(
+          teamAObj ? teamAObj.players.length : 0,
+          teamBObj ? teamBObj.players.length : 0
+        );
+        for (let i = 0; i < maxLen; i++) {
+          const pA = (teamAObj && teamAObj.players[i]) || {};
+          const pB = (teamBObj && teamBObj.players[i]) || {};
+          csvContent += `"${pA.name || ""}",${pA.number || ""},"${pA.role || ""}",,"${pB.name || ""}",${pB.number || ""},"${pB.role || ""}"\n`;
+        }
+        csvContent += "\n";
+      }
+      
+      // Event History
+      csvContent += "PLAY-BY-PLAY EVENTS\n";
+      csvContent += "Game,Team,Event Detail\n";
+      m.events.forEach(ev => {
+        const detail = ev.text.replace(/"/g, '""');
+        csvContent += `Game ${ev.game},"${ev.team}","${detail}"\n`;
+      });
+      
+      // Download link creation
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `Badminton_Match_${f.id}_${f.teamA}_vs_${f.teamB}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // =========================================================================
+    // VISUAL BADMINTON COURT VIEW
+    // =========================================================================
+    function renderTeamBadmintonCourt(teamName, cssClass, servingPoints, isServing, isDoubles, isTop) {
+      const teamObj = teamsData.find(t => t.name === teamName);
+      if (!teamObj) return `<div class="bm-pitch-team"><span class="bm-pitch-team-name">${teamName}</span></div>`;
+      
+      const p = teamObj.players;
+
+      // In Badminton, service court is based on even/odd points of the serving side.
+      // Even score (0, 2, 4...) -> Right service court
+      // Odd score (1, 3, 5...) -> Left service court
+      const isRightCourt = (servingPoints % 2 === 0);
+
+      function renderPlayerDot(pl) {
+        if (!pl) return `<div style="width:60px;"></div>`;
+        return `<div class="bm-pitch-player">
+          <div class="bm-pitch-jersey ${cssClass}">${initials(pl.name)}</div>
+          <div class="bm-pitch-pname">${pl.name}</div>
+        </div>`;
+      }
+
+      let headerHtml = `<div class="bm-pitch-team-header"><span class="bm-pitch-team-name">${teamName}</span></div>`;
+      let contentHtml = '';
+
+      // Render courts. Left Service Court & Right Service Court
+      if (isDoubles) {
+        // Doubles: 2 players. Render them side by side
+        const p1 = p[0] || { name: 'Player 1' };
+        const p2 = p[1] || { name: 'Player 2' };
+        
+        // Show service animation by shifting serving player forward or highlighting
+        contentHtml = `<div class="bm-pitch-row" style="justify-content: space-around; width: 100%;">
+          <div style="flex:1; display:flex; justify-content:center; ${isServing && !isRightCourt ? 'transform: scale(1.1); font-weight:bold;' : ''}">
+            ${renderPlayerDot(p1)}
+          </div>
+          <div style="flex:1; display:flex; justify-content:center; ${isServing && isRightCourt ? 'transform: scale(1.1); font-weight:bold;' : ''}">
+            ${renderPlayerDot(p2)}
+          </div>
+        </div>`;
+      } else {
+        // Singles: 1 player. Position them on Left or Right court depending on even/odd points if serving, or centered
+        const p1 = p[0] || { name: 'Player 1' };
+        let justify = 'center';
+        if (isServing) {
+          justify = isRightCourt ? 'flex-end' : 'flex-start';
+        }
+        
+        contentHtml = `<div class="bm-pitch-row" style="justify-content: ${justify}; padding: 0 45px; width: 100%;">
+          ${renderPlayerDot(p1)}
+        </div>`;
+      }
+      
+      let html = `<div class="bm-pitch-team">`;
+      if (isTop) {
+        html += headerHtml + contentHtml;
+      } else {
+        html += contentHtml + headerHtml;
+      }
+      html += `</div>`;
+      return html;
+    }
+
+    function renderBadmintonCourtView(f) {
+      let html = `<h3 class="bm-lineup-title">🏸 Court Grid</h3>`;
+      html += `<div class="bm-pitch">`;
+
+      // Court Lines SVG background (Indoor Badminton dimensions)
+      html += `<svg class="bm-pitch-lines" viewBox="0 0 300 400" preserveAspectRatio="none">
+        <rect x="5" y="5" width="290" height="390" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="2"/>
+        <line x1="5" y1="200" x2="295" y2="200" stroke="rgba(255,255,255,.5)" stroke-width="3"/>
+        <!-- Long Service Line for doubles (back boundary) -->
+        <line x1="5" y1="25" x2="295" y2="25" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+        <line x1="5" y1="375" x2="295" y2="375" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+        <!-- Short service lines -->
+        <line x1="5" y1="140" x2="295" y2="140" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+        <line x1="5" y1="260" x2="295" y2="260" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+        <!-- Center line (separating L/R service courts) -->
+        <line x1="150" y1="5" x2="150" y2="140" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+        <line x1="150" y1="260" x2="150" y2="395" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+        <!-- Doubles side line dividers -->
+        <line x1="20" y1="5" x2="20" y2="395" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+        <line x1="280" y1="5" x2="280" y2="395" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+      </svg>`;
+
+      const m = f.match;
+      const isDoubles = (f.category === 'Doubles');
+
+      html += `<div class="bm-pitch-inner">`;
+      // Team A (home, top half)
+      html += renderTeamBadmintonCourt(f.teamA, 'home', m.pointsA, m.serving === 'A', isDoubles, true);
+      
+      html += `<div class="bm-pitch-divider"></div>`;
+      html += `<div class="bm-pitch-divider-label"><span>NET ZONE</span></div>`;
+      
+      // Team B (away, bottom half)
+      html += renderTeamBadmintonCourt(f.teamB, 'away', m.pointsB, m.serving === 'B', isDoubles, false);
+      html += `</div></div>`;
+
+      return html;
+    }
+
+    // =========================================================================
+    // INITIAL RENDER
+    // =========================================================================
+    applyFxFilter();
+    renderPlayers();
+    updateStats();
+  </script>
+
+  <!-- Info modal -->
+  <div class="ct-modal-overlay" id="ctModalOverlay">
+    <div class="ct-modal">
+      <h3 id="ctModalTitle"></h3>
+      <p id="ctModalBody"></p>
+      <button class="ct-modal-btn" onclick="ctCloseModal()">Got it</button>
+    </div>
+  </div>
+
+  <!-- Add Fixture modal -->
+  <div class="ct-modal-overlay" id="fxModalOverlay">
+    <div class="ct-modal" style="max-width:440px;">
+      <h3>Add Match</h3>
+      <p style="margin-bottom:16px;">Pick two entries and schedule the badminton court match.</p>
+      <form id="fxForm" onsubmit="submitFixture(event)">
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+          <input type="text" id="fxTeamA" list="teamsDatalist" class="fx-input" placeholder="Team A / Player name" required>
+          <input type="text" id="fxTeamB" list="teamsDatalist" class="fx-input" placeholder="Team B / Player name" required>
+          <datalist id="teamsDatalist"></datalist>
+          <input type="text" id="fxDate" class="fx-input" placeholder="Date (e.g. JUL 14)" required>
+          <input type="text" id="fxTime" class="fx-input" placeholder="Time (e.g. 9:00 AM)" required>
+          <input type="text" id="fxVenue" class="fx-input" placeholder="Venue (e.g. Court A)" required>
+          <input type="number" id="fxMaxGames" class="fx-input" placeholder="Best of N Games (e.g. 3)" min="1" value="3" required>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button type="button" class="ct-btn-add" style="flex:1;justify-content:center;padding:16px;" onclick="closeAddFixtureModal()">← Back</button>
+          <button type="submit" class="ct-submit-btn" style="flex:2;font-size:16px;">Add Match</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

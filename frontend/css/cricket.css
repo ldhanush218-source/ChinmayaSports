@@ -1,0 +1,20 @@
+:root {
+  --primary: #f5b041;
+  --primary-glow: rgba(245, 176, 65, 0.4);
+  --primary-gradient: linear-gradient(135deg, #f8c471, #f5b041);
+  --bg-gradient: linear-gradient(135deg, #0e1e12 0%, #15321d 100%);
+  --accent: #2ecc71;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.04;
+  background: radial-gradient(circle, var(--primary) 10%, transparent 11%);
+  background-size: 30px 30px;
+}

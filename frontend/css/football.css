@@ -1,0 +1,23 @@
+:root {
+  --primary: #10b981;
+  --primary-glow: rgba(16, 185, 129, 0.4);
+  --primary-gradient: linear-gradient(135deg, #34d399, #10b981);
+  --bg-gradient: linear-gradient(135deg, #051a11 0%, #0c3322 100%);
+  --accent: #f5f6fa;
+}
+
+/* Court lines overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.03;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.5) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255,255,255,0.5) 2px, transparent 2px);
+  background-size: 100px 100px;
+}

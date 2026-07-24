@@ -1,0 +1,3126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket — Chinmaya Sport</title>
+  <style>
+    /* ==========================================================================
+   CHINMAYA SPORT — design tokens
+   Signature: stadium scoreboard (mono flip-tiles) + jersey-badge icons.
+   Each sport "wears" the system by overriding --accent / --accent-dark.
+   ========================================================================== */
+
+    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --bg: #F2F5EF;
+      --surface: #FFFFFF;
+      --surface-alt: #EAEEE3;
+      --line: #DCE3D6;
+      --ink: #12211A;
+      --ink-soft: #52604F;
+      --ink-faint: #8C9789;
+
+      --brand: #1B8A5A;
+      --brand-dark: #0F5C3B;
+      --amber: #F2A93B;
+      --live: #E11D48;
+
+      --cricket: #1B8A5A;
+      --cricket-dark: #0F5C3B;
+      --football: #2455C9;
+      --football-dark: #17368C;
+      --badminton: #7C3AED;
+      --badminton-dark: #5B21B6;
+      --basketball: #F2711C;
+      --basketball-dark: #C2540E;
+      --volleyball: #0EA5E9;
+      --volleyball-dark: #0369A1;
+      --athletics: #EAB308;
+      --athletics-dark: #CA8A04;
+
+      --accent: var(--brand);
+      --accent-dark: var(--brand-dark);
+
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 10px;
+      --shadow-card: 0 1px 2px rgba(18, 33, 26, .04), 0 10px 24px -12px rgba(18, 33, 26, .18);
+
+      --font-display: 'Anton', 'Arial Narrow', sans-serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    /* ---------- header ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(242, 245, 239, .85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .site-header .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .brand-mark svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .brand-word {
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: .01em;
+      line-height: 1;
+    }
+
+    .brand-word small {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .16em;
+      color: var(--ink-faint);
+      font-weight: 400;
+      margin-top: 3px;
+      text-transform: uppercase;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .main-nav a {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      transition: color .15s ease;
+    }
+
+    .main-nav a:hover,
+    .main-nav a.active {
+      color: var(--ink);
+    }
+
+    .profile-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: var(--surface-alt);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-toggle {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--surface-alt);
+      border: 1px solid var(--line);
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width:840px) {
+      .main-nav {
+        position: fixed;
+        inset: 76px 0 auto 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        background: var(--surface);
+        border-bottom: 1px solid var(--line);
+        padding: 8px 24px 20px;
+        transform: translateY(-8px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .18s ease, transform .18s ease;
+      }
+
+      .main-nav.open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .main-nav a {
+        padding: 12px 0;
+        width: 100%;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+    }
+
+    /* ---------- sport hero ---------- */
+    .sport-hero {
+      background: linear-gradient(160deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      padding: 52px 0 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sport-hero .wrap {
+      position: relative;
+      z-index: 2;
+    }
+
+    .sport-hero .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .8);
+      margin-bottom: 22px;
+    }
+
+    .sport-hero .badge-lg {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .16);
+      border: 1px solid rgba(255, 255, 255, .3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .sport-hero .badge-lg svg {
+      width: 32px;
+      height: 32px;
+    }
+
+    .sport-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 8vw, 84px);
+      line-height: .92;
+      margin: 0 0 12px;
+    }
+
+    .sport-hero p {
+      font-size: 16px;
+      max-width: 52ch;
+      color: rgba(255, 255, 255, .86);
+      margin: 0;
+    }
+
+    .sport-hero .field-lines {
+      position: absolute;
+      inset: 0;
+      opacity: .14;
+      z-index: 1;
+    }
+
+    /* ---------- scoreboard stat strip ---------- */
+    .scoreboard {
+      margin-top: -34px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .scoreboard .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width:720px) {
+      .scoreboard .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .tile {
+      background: #12211A;
+      border-radius: var(--radius-md);
+      padding: 20px 18px;
+      box-shadow: 0 14px 28px -14px rgba(0, 0, 0, .4);
+    }
+
+    .tile .num {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 34px;
+      color: var(--accent);
+      letter-spacing: .02em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tile .label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .55);
+      margin-top: 4px;
+    }
+
+    /* ---------- tabs ---------- */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin: 48px 0 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 12px 4px;
+      margin-right: 22px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink-faint);
+      border-bottom: 3px solid transparent;
+      transition: color .15s ease, border-color .15s ease;
+    }
+
+    .tab-btn.active {
+      color: var(--ink);
+      border-color: var(--accent);
+    }
+
+    .tab-panel {
+      display: none;
+      padding-bottom: 70px;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* ---------- filters ---------- */
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .filter-chip {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink-soft);
+    }
+
+    .filter-chip.active {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #fff;
+    }
+
+    /* ---------- fixtures toolbar & actions ---------- */
+    .fx-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .fx-add-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: none;
+      background: var(--ink);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .fx-side {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .fx-btn-solid {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .fx-input {
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      width: 100%;
+      background: var(--surface);
+      color: var(--ink);
+    }
+
+    .fx-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    /* ---------- fixture cards ---------- */
+    .fixture-card {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      align-items: center;
+      gap: 20px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width:640px) {
+      .fixture-card {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+
+    .fixture-date {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
+
+    .fixture-date strong {
+      display: block;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .fixture-teams {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .fixture-match-name {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .fixture-id-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--ink-faint);
+      margin-top: 2px;
+    }
+
+    .team {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .jersey {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .vs {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+
+    .venue {
+      font-size: 13px;
+      color: var(--ink-faint);
+      margin-top: 2px;
+    }
+
+    .status-pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .status-live {
+      background: #FDE2E7;
+      color: var(--live);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-live .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--live);
+      animation: pulse 1.4s infinite;
+    }
+
+    .status-upcoming {
+      background: var(--surface-alt);
+      color: var(--ink-soft);
+    }
+
+    .status-done {
+      background: #E7F2EC;
+      color: var(--brand-dark);
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: .25;
+      }
+    }
+
+    /* ---------- roster grid ---------- */
+    .roster-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width:900px) {
+      .roster-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width:640px) {
+      .roster-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .player-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      text-align: left;
+    }
+
+    .player-card .jersey {
+      width: 46px;
+      height: 46px;
+      font-size: 16px;
+      margin-bottom: 14px;
+    }
+
+    .player-card h4 {
+      margin: 0 0 2px;
+      font-size: 15px;
+    }
+
+    .player-card .role {
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+
+    .player-card .team-tag {
+      margin-top: 10px;
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: var(--surface-alt);
+      color: var(--ink-soft);
+    }
+
+    /* ---------- empty state ---------- */
+    .ct-empty {
+      text-align: center;
+      padding: 36px 16px;
+      border: 2px dashed var(--line);
+      border-radius: var(--radius-md);
+      margin-bottom: 28px;
+      color: var(--ink-faint);
+      grid-column: 1 / -1;
+    }
+
+    .ct-empty-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+      opacity: .5;
+    }
+
+    .ct-empty p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    /* ---------- captain toggle ---------- */
+    .ct-cap-group {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .ct-cap-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--ink-faint);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .15s ease;
+    }
+
+    .ct-cap-btn:hover {
+      border-color: var(--accent);
+      color: var(--ink-soft);
+    }
+
+    .ct-cap-btn.active-c {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .ct-cap-btn.active-vc {
+      background: var(--amber);
+      border-color: var(--amber);
+      color: #fff;
+    }
+
+    /* ---------- captain badge on player card ---------- */
+    .captain-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .captain-badge.cap {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .captain-badge.vcap {
+      background: var(--amber);
+      color: #fff;
+    }
+
+    /* ---------- create team ---------- */
+    .ct-wrapper {
+      max-width: 680px;
+    }
+
+    .ct-team-input {
+      position: relative;
+      margin-bottom: 28px;
+    }
+
+    .ct-team-input input {
+      width: 100%;
+      padding: 16px 20px 16px 52px;
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: .01em;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      color: var(--ink);
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+
+    .ct-team-input input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(27, 138, 90, .12);
+    }
+
+    .ct-team-input input::placeholder {
+      color: var(--ink-faint);
+      font-family: var(--font-display);
+    }
+
+    .ct-team-input .ct-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--ink-faint);
+    }
+
+    .ct-summary-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .ct-summary-strip .ct-stat {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 14px 12px;
+      text-align: center;
+    }
+
+    .ct-stat .ct-stat-num {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 26px;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+
+    .ct-stat .ct-stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-top: 4px;
+    }
+
+    @media (max-width: 640px) {
+      .ct-summary-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .ct-players-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .ct-players-header h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ct-count-pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      background: var(--surface-alt);
+      border: 1px solid var(--line);
+      padding: 4px 12px;
+      border-radius: 999px;
+      color: var(--ink-soft);
+    }
+
+    .ct-btn-add {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      border: 2px dashed var(--line);
+      background: var(--surface);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--accent);
+      transition: border-color .15s ease, background .15s ease;
+    }
+
+    .ct-btn-add:hover {
+      border-color: var(--accent);
+      background: rgba(27, 138, 90, .06);
+    }
+
+    .ct-players-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+      min-height: 60px;
+    }
+
+    .ct-player-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      animation: ctSlideIn .25s ease forwards;
+      transition: border-color .15s ease, opacity .2s ease, transform .2s ease;
+    }
+
+    .ct-player-row:hover {
+      border-color: var(--accent);
+    }
+
+    @keyframes ctSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .ct-player-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .ct-player-row input {
+      flex: 2;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--bg);
+      transition: border-color .15s ease;
+    }
+
+    .ct-player-row input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .ct-player-row input::placeholder {
+      color: var(--ink-faint);
+      font-weight: 400;
+    }
+
+    .ct-player-row select {
+      flex: 1.2;
+      min-width: 140px;
+      padding: 10px 32px 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--bg);
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238C9789' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      cursor: pointer;
+      transition: border-color .15s ease;
+    }
+
+    .ct-player-row select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .ct-btn-remove {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: none;
+      color: var(--ink-faint);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background .15s ease, color .15s ease, border-color .15s ease;
+    }
+
+    .ct-btn-remove:hover {
+      background: #FDE2E7;
+      color: var(--live);
+      border-color: #FDE2E7;
+    }
+
+    .ct-submit-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: .02em;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+      box-shadow: 0 4px 16px rgba(27, 138, 90, .25);
+    }
+
+    .ct-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(27, 138, 90, .35);
+    }
+
+    .ct-submit-btn:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 640px) {
+      .ct-player-row {
+        flex-wrap: wrap;
+      }
+
+      .ct-player-row input,
+      .ct-player-row select {
+        flex: 1 1 100%;
+      }
+    }
+
+    /* ---------- modal (shared) ---------- */
+    .ct-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(18, 33, 26, .5);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+      padding: 20px;
+    }
+
+    .ct-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .ct-modal {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, .2);
+      transform: scale(.94);
+      transition: transform .2s ease;
+      text-align: left;
+    }
+
+    .ct-modal-overlay.active .ct-modal {
+      transform: scale(1);
+    }
+
+    .ct-modal h3 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      margin: 0 0 8px;
+    }
+
+    .ct-modal p {
+      color: var(--ink-soft);
+      font-size: 15px;
+      margin: 0 0 20px;
+    }
+
+    .ct-modal-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--ink);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ---------- toss modal ---------- */
+    .toss-choice {
+      flex: 1;
+      padding: 14px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ink-soft);
+      transition: border-color .15s ease, background .15s ease, color .15s ease;
+    }
+
+    .toss-choice.selected {
+      border-color: var(--accent);
+      background: rgba(27, 138, 90, .08);
+      color: var(--ink);
+    }
+
+    /* ---------- section back link (light background) ---------- */
+    .section-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-top: 28px;
+    }
+
+    .section-back:hover {
+      color: var(--ink);
+    }
+
+    /* ---------- scoreboard modal ---------- */
+    .sb-score-display {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 44px;
+      color: var(--ink);
+      margin: 6px 0 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sb-score-display .sb-overs {
+      font-size: 16px;
+      color: var(--ink-faint);
+      margin-left: 8px;
+    }
+
+    .sb-btn-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .sb-btn {
+      padding: 14px 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--ink);
+    }
+
+    .sb-btn:hover {
+      border-color: var(--accent);
+    }
+
+    .sb-boundary {
+      background: rgba(27, 138, 90, .08);
+      border-color: var(--accent);
+      color: var(--accent-dark);
+    }
+
+    .sb-extra {
+      font-size: 11px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .sb-wicket {
+      background: #FDE2E7;
+      border-color: var(--live);
+      color: var(--live);
+    }
+
+    /* ---------- batsman strip in scoreboard ---------- */
+    .sb-batsmen {
+      display: flex;
+      gap: 12px;
+      margin: 14px 0 4px;
+    }
+
+    .sb-bat-card {
+      flex: 1;
+      background: var(--surface-alt);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      position: relative;
+    }
+
+    .sb-bat-card.on-strike {
+      border-color: var(--accent);
+      background: rgba(27, 138, 90, .06);
+    }
+
+    .sb-bat-card .sb-bat-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 3px;
+    }
+
+    .sb-bat-card .sb-bat-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sb-bat-card .sb-bat-runs {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-soft);
+      margin-top: 2px;
+    }
+
+    .sb-bat-card .sb-strike-dot {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      display: none;
+    }
+
+    .sb-bat-card.on-strike .sb-strike-dot {
+      display: block;
+    }
+
+    /* ---------- batsman select modal ---------- */
+    .sb-player-list {
+      max-height: 260px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .sb-player-opt {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      cursor: pointer;
+      transition: border-color .15s ease, background .15s ease;
+    }
+
+    .sb-player-opt:hover {
+      border-color: var(--accent);
+    }
+
+    .sb-player-opt.selected {
+      border-color: var(--accent);
+      background: rgba(27, 138, 90, .08);
+    }
+
+    .sb-player-opt .sb-p-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .sb-player-opt .sb-p-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .sb-player-opt .sb-p-role {
+      font-size: 11px;
+      color: var(--ink-faint);
+      margin-left: auto;
+    }
+
+    /* ---------- current bowler display ---------- */
+    .sb-bowler-strip {
+      margin: 8px 0 0;
+      padding: 8px 12px;
+      background: var(--surface-alt);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sb-bowler-strip .sb-bowl-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
+    .sb-bowler-strip .sb-bowl-name {
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .sb-bowler-strip .sb-bowl-figs {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-soft);
+      margin-left: auto;
+    }
+
+    /* ---------- overs progress ---------- */
+    .sb-overs-bar {
+      margin: 10px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sb-overs-track {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--line);
+      overflow: hidden;
+    }
+
+    .sb-overs-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: var(--accent);
+      transition: width .2s ease;
+    }
+
+    .sb-overs-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-soft);
+      white-space: nowrap;
+    }
+
+    /* ---------- scorecard tab ---------- */
+    .sc-match-select {
+      margin-bottom: 18px;
+    }
+
+    .sc-match-select select {
+      padding: 10px 36px 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--surface);
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238C9789' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      cursor: pointer;
+      min-width: 260px;
+    }
+
+    .sc-innings-toggle {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .sc-inn-btn {
+      padding: 8px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink-soft);
+      letter-spacing: .04em;
+    }
+
+    .sc-inn-btn.active {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #fff;
+    }
+
+    .sc-section {
+      margin-bottom: 24px;
+    }
+
+    .sc-section h4 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      margin: 0 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sc-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .sc-table th {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 2px solid var(--line);
+    }
+
+    .sc-table th.num {
+      text-align: right;
+    }
+
+    .sc-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .sc-table td.num {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sc-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .sc-table .sc-name {
+      font-weight: 600;
+    }
+
+    .sc-table .sc-dismissed {
+      color: var(--ink-faint);
+      font-size: 11px;
+      font-style: italic;
+      display: block;
+    }
+
+    .sc-table .sc-captain {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 700;
+      background: var(--accent);
+      color: #fff;
+      padding: 1px 5px;
+      border-radius: 999px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    .sc-total-row {
+      font-weight: 700;
+      background: var(--surface-alt);
+    }
+
+    .sc-total-row td {
+      border-bottom: none;
+      font-family: var(--font-mono);
+    }
+
+    .sc-extras {
+      font-size: 12px;
+      color: var(--ink-soft);
+      padding: 6px 10px;
+    }
+
+    .sc-result {
+      font-family: var(--font-display);
+      font-size: 18px;
+      margin: 16px 0 0;
+      padding: 14px 18px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+      color: #fff;
+      border-radius: var(--radius-md);
+      text-align: center;
+    }
+
+    /* ---------- live score summary card ---------- */
+    .sc-summary-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: var(--shadow-card);
+    }
+
+    .sc-summary-team-info {
+      text-align: center;
+      flex: 1;
+    }
+
+    .sc-summary-team-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .sc-summary-team-score {
+      font-family: var(--font-mono);
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .sc-summary-team-overs {
+      font-size: 12px;
+      color: var(--ink-faint);
+      font-family: var(--font-mono);
+    }
+
+    .sc-summary-divider {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--ink-faint);
+      padding: 0 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<!-- This page "wears" the cricket theme by setting --accent here.
+     Copy this file, swap the two variables + copy/data below to add a new sport. -->
+
+<body style="--accent:var(--cricket); --accent-dark:var(--cricket-dark);">
+
+  <header class="site-header">
+    <div class="wrap">
+      <a href="../home.html" class="brand">
+        <span class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M4 12c4-6 12-6 16 0" stroke="#F2A93B" stroke-width="2" stroke-linecap="round" />
+            <circle cx="12" cy="12" r="2.4" fill="#F2A93B" />
+          </svg>
+        </span>
+        <span class="brand-word">CHINMAYA SPORT<small>Annual Meet · 2026</small></span>
+      </a>
+      <nav class="main-nav" id="mainNav">
+        <a href="../home.html">Home</a>
+        <a href="cricket.html" class="active">Sports</a>
+        <a href="#fixtures">Fixtures</a>
+        <a href="#about">About</a>
+      </nav>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke="#12211A" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+        <a href="#" class="profile-btn" aria-label="Profile">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+            <circle cx="12" cy="8" r="3.4" stroke="#12211A" stroke-width="1.8" />
+            <path d="M5 20c1.6-3.6 5-5 7-5s5.4 1.4 7 5" stroke="#12211A" stroke-width="1.8" stroke-linecap="round" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="sport-hero">
+    <svg class="field-lines" viewBox="0 0 400 200" preserveAspectRatio="none">
+      <circle cx="360" cy="30" r="140" fill="none" stroke="#fff" stroke-width="1" />
+      <circle cx="360" cy="30" r="90" fill="none" stroke="#fff" stroke-width="1" />
+    </svg>
+    <div class="wrap">
+      <a href="../home.html" class="back-link">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+          <path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+        All sports
+      </a>
+      <span class="badge-lg">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M6 18 17 7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" />
+          <circle cx="18.2" cy="5.8" r="2.4" stroke="#fff" stroke-width="1.8" />
+        </svg>
+      </span>
+      <h1>Cricket</h1>
+      <p>Fixtures, squads and results for the Chinmaya Sport annual meet — updated as matches are played.</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="scoreboard">
+      <div class="grid">
+        <div class="tile">
+          <div class="num" id="statMatches">0</div>
+          <div class="label">Matches</div>
+        </div>
+        <div class="tile">
+          <div class="num" id="statTeams">0</div>
+          <div class="label">Teams</div>
+        </div>
+        <div class="tile">
+          <div class="num" id="statToday">0</div>
+          <div class="label">Today</div>
+        </div>
+        <div class="tile">
+          <div class="num" id="statPlayers">0</div>
+          <div class="label">Players</div>
+        </div>
+      </div>
+    </div>
+
+    <a href="../home.html" class="section-back">
+      <svg viewBox="0 0 24 24" width="12" height="12" fill="none">
+        <path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+      Back to all sports
+    </a>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="fixtures">Fixtures</button>
+      <button class="tab-btn" data-tab="players">Players</button>
+      <button class="tab-btn" data-tab="create-team">Create Team</button>
+      <button class="tab-btn" data-tab="scorecard" onclick="onScorecardTabOpen()">Scorecard</button>
+    </div>
+
+    <!-- FIXTURES -->
+    <div class="tab-panel active" id="panel-fixtures">
+      <div class="fx-toolbar">
+        <div class="filter-row" style="margin-bottom:0;">
+          <button class="filter-chip active" data-filter="all">All</button>
+          <button class="filter-chip" data-filter="live">Live</button>
+          <button class="filter-chip" data-filter="upcoming">Upcoming</button>
+          <button class="filter-chip" data-filter="done">Completed</button>
+        </div>
+        <button type="button" class="fx-add-btn" onclick="openAddFixtureModal()">+ Add Fixture</button>
+      </div>
+      <div id="fixtureList"></div>
+    </div>
+
+    <!-- PLAYERS -->
+    <div class="tab-panel" id="panel-players">
+      <div class="roster-grid" id="rosterGrid"></div>
+    </div>
+
+    <!-- SCORECARD -->
+    <div class="tab-panel" id="panel-scorecard">
+      <div class="sc-match-select">
+        <select id="scMatchSelect" onchange="renderMatchScorecard(this.value)">
+          <option value="" disabled selected>Select a match</option>
+        </select>
+      </div>
+      <div id="scorecardContainer"></div>
+    </div>
+
+    <!-- CREATE TEAM -->
+    <div class="tab-panel" id="panel-create-team">
+      <div class="ct-wrapper">
+        <p style="font-size:15px; color:var(--ink-soft); margin:0 0 24px; max-width:52ch;">
+          Name your team, add players (11–15) and assign their roles to build a valid squad.
+        </p>
+
+        <form id="ctForm" onsubmit="ctSubmit(event)">
+          <div class="ct-team-input">
+            <span class="ct-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+                <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" stroke="currentColor"
+                  stroke-width="1.8" stroke-linejoin="round" />
+              </svg>
+            </span>
+            <input type="text" id="ctTeamName" placeholder="Team name" required>
+          </div>
+
+          <div class="ct-summary-strip">
+            <div class="ct-stat">
+              <div class="ct-stat-num" id="ctCountBat">0</div>
+              <div class="ct-stat-label">Batsmen</div>
+            </div>
+            <div class="ct-stat">
+              <div class="ct-stat-num" id="ctCountBowl">0</div>
+              <div class="ct-stat-label">Bowlers</div>
+            </div>
+            <div class="ct-stat">
+              <div class="ct-stat-num" id="ctCountAR">0</div>
+              <div class="ct-stat-label">All-rounders</div>
+            </div>
+            <div class="ct-stat">
+              <div class="ct-stat-num" id="ctCountWK">0</div>
+              <div class="ct-stat-label">Wicket-keepers</div>
+            </div>
+          </div>
+
+          <div class="ct-players-header">
+            <h3>Squad <span class="ct-count-pill" id="ctCountPill">0 / 15</span></h3>
+            <button type="button" class="ct-btn-add" onclick="ctAddPlayer()">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
+              </svg>
+              Add Player
+            </button>
+          </div>
+
+          <div class="ct-players-list" id="ctPlayersList">
+            <div class="ct-empty" id="ctEmpty">
+              <div class="ct-empty-icon">👥</div>
+              <p>Click <strong>"Add Player"</strong> to start building your squad</p>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px;">
+            <button type="button" class="ct-btn-add" style="flex:1; justify-content:center; padding:16px;"
+              onclick="ctCancel()">← Back</button>
+            <button type="submit" class="ct-submit-btn" style="flex:2;">CREATE TEAM</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer" style="border-top:1px solid var(--line); padding:36px 0 46px;">
+    <div class="wrap"
+      style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+      <p style="margin:0; font-size:13px; color:var(--ink-faint); font-family:var(--font-mono);">CHINMAYA SPORT — ANNUAL
+        MEET 2026</p>
+      <p style="margin:0; font-size:13px; color:var(--ink-faint); font-family:var(--font-mono);">CRICKET · GROUND A</p>
+    </div>
+  </footer>
+
+  <script>
+    // Site-wide behavior
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('navToggle');
+      const nav = document.getElementById('mainNav');
+      if (toggle && nav) {
+        toggle.addEventListener('click', () => {
+          const isOpen = nav.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', String(isOpen));
+        });
+      }
+    });
+
+    // ---------------------------------------------------------------------------
+    // CRICKET PAGE — state
+    // teamsData / fixtures live in memory only. When the backend is ready:
+    //   - POST new teams to   /api/sports/cricket/teams
+    //   - POST new fixtures to /api/sports/cricket/fixtures
+    //   - PATCH live score to  /api/sports/cricket/fixtures/:id/score
+    // and load initial state with GET requests instead of the empty arrays below.
+    // ---------------------------------------------------------------------------
+
+    const CRICKET_ACCENT = '#1B8A5A';
+    const API_BASE = 'http://localhost:5001/api/cricket';
+
+    let teamsData = [];
+    let fixtures = [];
+    let fxIdCounter = 0;
+    let currentFxFilter = 'all';
+
+    // ── Load all data from backend on page start ──────────────────────────────
+    async function initPage() {
+      try {
+        const [tRes, fRes] = await Promise.all([
+          fetch(`${API_BASE}/teams`),
+          fetch(`${API_BASE}/fixtures`)
+        ]);
+        if (tRes.ok) {
+          const { data } = await tRes.json();
+          teamsData = data.map(t => ({ _id: t._id, name: t.name, players: t.players }));
+        }
+        if (fRes.ok) {
+          const { data } = await fRes.json();
+          fixtures = data.map(f => ({
+            _id: f._id, id: f._id,
+            date: f.date || '', time: f.time || '',
+            teamA: f.teamA, teamB: f.teamB,
+            venue: f.venue || '', overs: f.overs || 20,
+            ageCategory: f.ageCategory || '',
+            status: f.status || 'upcoming',
+            match: f.match || null,
+            score: f.score || null
+          }));
+          fxIdCounter = fixtures.length;
+        }
+      } catch (err) {
+        console.warn('Backend not reachable, running offline:', err.message);
+      }
+
+      // Pre-defined teams — always available even when backend/DB is offline
+      if (!teamsData.length) {
+        teamsData = [
+          {
+            name: 'Gandhi', players: [
+              { number: 1, name: 'Rohan Mehta', role: 'Opener', captain: true, viceCaptain: false },
+              { number: 2, name: 'Varun Bose', role: 'Opener', captain: false, viceCaptain: true },
+              { number: 3, name: 'Dev Gupta', role: 'No. 3', captain: false, viceCaptain: false },
+              { number: 4, name: 'Amit Roy', role: 'No. 4', captain: false, viceCaptain: false },
+              { number: 5, name: 'Rohit Menon', role: 'No. 5', captain: false, viceCaptain: false },
+              { number: 6, name: 'Vivek Sharma', role: 'All-Rounder', captain: false, viceCaptain: false },
+              { number: 7, name: 'Subodh Rao', role: 'All-Rounder', captain: false, viceCaptain: false },
+              { number: 8, name: 'Manoj Vyas', role: 'WK', captain: false, viceCaptain: false },
+              { number: 9, name: 'Sujith Lal', role: 'Bowler', captain: false, viceCaptain: false },
+              { number: 10, name: 'Karthik Raja', role: 'Bowler', captain: false, viceCaptain: false },
+              { number: 11, name: 'Anand Kumar', role: 'Bowler', captain: false, viceCaptain: false }
+            ]
+          },
+          {
+            name: 'Nehru', players: [
+              { number: 1, name: 'Kabir Saxena', role: 'Opener', captain: true, viceCaptain: false },
+              { number: 2, name: 'Kunal Verma', role: 'Opener', captain: false, viceCaptain: true },
+              { number: 3, name: 'Sanjay Patel', role: 'No. 3', captain: false, viceCaptain: false },
+              { number: 4, name: 'Deepak Nair', role: 'No. 4', captain: false, viceCaptain: false },
+              { number: 5, name: 'Piyush Pal', role: 'No. 5', captain: false, viceCaptain: false },
+              { number: 6, name: 'Ajay Jose', role: 'All-Rounder', captain: false, viceCaptain: false },
+              { number: 7, name: 'Vikram Singh', role: 'All-Rounder', captain: false, viceCaptain: false },
+              { number: 8, name: 'Suraj Joshi', role: 'WK', captain: false, viceCaptain: false },
+              { number: 9, name: 'Rahul Sen', role: 'Bowler', captain: false, viceCaptain: false },
+              { number: 10, name: 'Arjun Das', role: 'Bowler', captain: false, viceCaptain: false },
+              { number: 11, name: 'Nikhil Iyer', role: 'Bowler', captain: false, viceCaptain: false }
+            ]
+          }
+        ];
+      }
+      renderPlayers();
+      refreshTeamsDatalist();
+      applyFxFilter();
+      updateStats();
+
+      // Check URL query params (e.g. ?tab=scorecard&fixtureId=...)
+      const urlParams = new URLSearchParams(window.location.search);
+      const reqTab = urlParams.get('tab');
+      const reqFxId = urlParams.get('fixtureId');
+
+      if (reqFxId) {
+        startMatchInline(String(reqFxId));
+      } else if (reqTab) {
+        switchToTab(reqTab);
+      }
+    }
+    initPage();
+
+    function initials(str) {
+      return str.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    }
+
+    function statusPill(f) {
+      if (f.status === 'live') return `<span class="status-pill status-live"><span class="dot"></span>Live</span>`;
+      if (f.status === 'done') return `<span class="status-pill status-done">Completed</span>`;
+      return `<span class="status-pill status-upcoming">Upcoming</span>`;
+    }
+
+    function fixtureActions(f) {
+      if (f.status === 'upcoming') return `<button type="button" class="fx-btn-solid" onclick="startMatchInline('${f.id}')">Start Match</button>`;
+      if (f.status === 'live') return `<button type="button" class="fx-btn-solid" onclick="startMatchInline('${f.id}')">Scoreboard</button>`;
+      if (f.status === 'done') return `<button type="button" class="fx-btn-solid" style="background:var(--ink-soft);" onclick="viewFixtureScorecard('${f.id}')">View Scorecard</button>`;
+      return '';
+    }
+
+    function switchToTab(tabName) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      const btn = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+      if (btn) btn.classList.add('active');
+      const panel = document.getElementById(`panel-${tabName}`);
+      if (panel) panel.classList.add('active');
+    }
+
+    function startMatchInline(fixtureId) {
+      scSelectedFixtureId = fixtureId;
+      openerStep = 0;
+      openerStrikerPick = null;
+      tossWinnerChoice = null;
+      tossDecisionChoice = null;
+      switchToTab('scorecard');
+      refreshScorecardSelect();
+      const select = document.getElementById('scMatchSelect');
+      if (select) select.value = fixtureId;
+      renderMatchScorecard(fixtureId);
+    }
+
+    function viewFixtureScorecard(fixtureId) {
+      scSelectedFixtureId = fixtureId;
+      switchToTab('scorecard');
+      refreshScorecardSelect();
+      const select = document.getElementById('scMatchSelect');
+      if (select) {
+        select.value = fixtureId;
+        renderMatchScorecard(fixtureId);
+      }
+    }
+
+    function liveScoreText(f) {
+      if (!f.match) return '';
+      const inn = f.match.innings[f.match.currentInnings];
+      const overs = Math.floor(inn.balls / 6) + '.' + (inn.balls % 6);
+      let txt = `${inn.team} ${inn.runs}/${inn.wickets} (${overs} ov)`;
+      if (f.match.currentInnings === 1) txt += ` · target ${f.match.target}`;
+      return txt;
+    }
+
+    function renderFixtures(list) {
+      const el = document.getElementById('fixtureList');
+      if (!list.length) {
+        el.innerHTML = `<div class="ct-empty"><div class="ct-empty-icon">🏏</div><p>No fixtures yet — click <strong>"+ Add Fixture"</strong> to schedule the first match.</p></div>`;
+        return;
+      }
+      el.innerHTML = list.map(f => `
+    <div class="fixture-card">
+      <div class="fixture-date"><strong>${f.date}</strong>${f.time}</div>
+      <div>
+        ${f.matchName ? `<div class="fixture-match-name">${f.matchName}</div>` : ''}
+        <div class="fixture-teams">
+          <span class="team"><span class="jersey" style="background:${CRICKET_ACCENT}">${initials(f.teamA)}</span>${f.teamA}</span>
+          <span class="vs">vs</span>
+          <span class="team"><span class="jersey" style="background:${CRICKET_ACCENT}">${initials(f.teamB)}</span>${f.teamB}</span>
+        </div>
+        <div class="venue">${f.venue}${f.ageCategory ? ' · ' + f.ageCategory : ''}${f.score ? ' · ' + f.score : ''}${f.status === 'live' ? ' · ' + liveScoreText(f) : ''}</div>
+        <div class="fixture-id-tag">ID: ${f.id}${f.overs ? ' · ' + f.overs + ' overs/inn' : ''}</div>
+      </div>
+      <div class="fx-side">
+        ${statusPill(f)}
+        ${fixtureActions(f)}
+      </div>
+    </div>
+  `).join('');
+    }
+
+    function applyFxFilter() {
+      renderFixtures(currentFxFilter === 'all' ? fixtures : fixtures.filter(x => x.status === currentFxFilter));
+    }
+
+    function renderPlayers() {
+      const el = document.getElementById('rosterGrid');
+      const allPlayers = teamsData.flatMap(t => t.players);
+      if (!allPlayers.length) {
+        el.innerHTML = `<div class="ct-empty"><div class="ct-empty-icon">🏏</div><p>No teams yet — create your first squad in the <strong>Create Team</strong> tab.</p></div>`;
+        return;
+      }
+      el.innerHTML = allPlayers.map(p => {
+        let badge = '';
+        if (p.captain) badge = '<span class="captain-badge cap">C</span>';
+        else if (p.viceCaptain) badge = '<span class="captain-badge vcap">VC</span>';
+        return `
+    <div class="player-card">
+      <span class="jersey" style="background:${CRICKET_ACCENT}">${p.number}</span>
+      <h4>${p.name}${badge}</h4>
+      <div class="role">${p.role}</div>
+      <span class="team-tag">${p.team}</span>
+    </div>`;
+      }).join('');
+    }
+
+    function updateStats() {
+      document.getElementById('statTeams').textContent = teamsData.length;
+      document.getElementById('statPlayers').textContent = teamsData.reduce((s, t) => s + t.players.length, 0);
+      document.getElementById('statMatches').textContent = fixtures.length;
+      document.getElementById('statToday').textContent = fixtures.filter(f => f.status !== 'done').length;
+    }
+
+    function persistFixturesLocal() {
+      try { localStorage.setItem('cricket_fixtures', JSON.stringify(fixtures)); } catch (_) { }
+    }
+
+    function saveLiveState(f) {
+      if (!f) return;
+      try {
+        localStorage.setItem('cricket_live_state', JSON.stringify({
+          id: f.id,
+          status: f.status,
+          teamA: f.teamA,
+          teamB: f.teamB,
+          match: f.match
+        }));
+      } catch (_) { }
+    }
+
+    async function saveFixtureState(f) {
+      if (!f) return;
+      persistFixturesLocal();
+      saveLiveState(f);
+      syncFeaturedMatch(f, 'Cricket');
+      try {
+        await fetch(`${API_BASE}/fixtures/${f.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            status: f.status,
+            match: f.match,
+            score: f.score || null
+          })
+        });
+      } catch (err) {
+        console.warn('Failed to persist fixture update:', err);
+      }
+    }
+
+    function syncFeaturedMatch(f, sportName) {
+      if (!f) return;
+      let scoreA = 0, scoreB = 0, details = "";
+      if (f.match) {
+        const inn = f.match.innings[f.match.currentInnings];
+        const ovs = Math.floor(inn.balls / 6) + '.' + (inn.balls % 6);
+        scoreA = `${inn.runs}/${inn.wickets}`;
+        scoreB = `(${ovs} ov)`;
+        details = f.status === 'done' ? 'Completed' : `${inn.team} batting`;
+      }
+      const featured = {
+        id: f.id,
+        sport: sportName,
+        teamA: f.teamA,
+        teamB: f.teamB,
+        scoreA: scoreA,
+        scoreB: scoreB,
+        status: f.status,
+        details: details,
+        link: `sports/${sportName.toLowerCase()}.html?tab=scorecard&fixtureId=${f.id}`
+      };
+      localStorage.setItem('featured_match', JSON.stringify(featured));
+    }
+
+    // tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`panel-${btn.dataset.tab}`).classList.add('active');
+      });
+    });
+
+    // fixture filters
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        currentFxFilter = chip.dataset.filter;
+        applyFxFilter();
+      });
+    });
+
+    // ---------------------------------------------------------------------------
+    // CREATE TEAM
+    // ---------------------------------------------------------------------------
+    const CT_MAX = 15, CT_MIN = 11;
+
+    function ctRows() { return document.querySelectorAll('#ctPlayersList .ct-player-row'); }
+
+    function ctUpdateSummary() {
+      const rows = ctRows();
+      let bat = 0, bowl = 0, ar = 0, wk = 0;
+      rows.forEach(r => {
+        const v = r.querySelector('select').value;
+        if (v === 'Batsman') bat++;
+        else if (v === 'Bowler') bowl++;
+        else if (v === 'All-rounder') ar++;
+        else if (v === 'Wicket-keeper') wk++;
+      });
+      document.getElementById('ctCountBat').textContent = bat;
+      document.getElementById('ctCountBowl').textContent = bowl;
+      document.getElementById('ctCountAR').textContent = ar;
+      document.getElementById('ctCountWK').textContent = wk;
+      document.getElementById('ctCountPill').textContent = `${rows.length} / ${CT_MAX}`;
+      const empty = document.getElementById('ctEmpty');
+      if (empty) empty.style.display = rows.length ? 'none' : '';
+    }
+
+    function ctAddPlayer() {
+      const list = document.getElementById('ctPlayersList');
+      const rows = ctRows();
+      if (rows.length >= CT_MAX) { ctModal('Squad Full', `Maximum ${CT_MAX} players allowed.`); return; }
+      const num = rows.length + 1;
+      const row = document.createElement('div');
+      row.className = 'ct-player-row';
+      row.innerHTML = `
+        <span class="ct-player-num">${num}</span>
+        <input type="text" placeholder="Player name" required>
+        <select onchange="ctUpdateSummary()">
+          <option value="" disabled selected>Select role</option>
+          <option value="Batsman">🏏 Batsman</option>
+          <option value="Bowler">🎳 Bowler</option>
+          <option value="All-rounder">⚡ All-rounder</option>
+          <option value="Wicket-keeper">🧤 Wicket-keeper</option>
+        </select>
+        <span class="ct-cap-group">
+          <button type="button" class="ct-cap-btn" data-cap="C" onclick="ctToggleCap(this,'C')" title="Captain">C</button>
+          <button type="button" class="ct-cap-btn" data-cap="VC" onclick="ctToggleCap(this,'VC')" title="Vice Captain">VC</button>
+        </span>
+        <button type="button" class="ct-btn-remove" onclick="ctRemovePlayer(this)" title="Remove">✕</button>
+      `;
+      list.appendChild(row);
+      ctUpdateSummary();
+      row.querySelector('input').focus();
+    }
+
+    function ctRemovePlayer(btn) {
+      const row = btn.closest('.ct-player-row');
+      row.style.opacity = '0';
+      row.style.transform = 'translateX(16px)';
+      setTimeout(() => { row.remove(); ctRenumber(); ctUpdateSummary(); }, 200);
+    }
+
+    function ctRenumber() {
+      ctRows().forEach((r, i) => r.querySelector('.ct-player-num').textContent = i + 1);
+    }
+
+    function ctModal(title, msg) {
+      document.getElementById('ctModalTitle').textContent = title;
+      document.getElementById('ctModalBody').textContent = msg;
+      document.getElementById('ctModalOverlay').classList.add('active');
+    }
+    function ctCloseModal() { document.getElementById('ctModalOverlay').classList.remove('active'); }
+
+    function ctCancel() {
+      document.getElementById('ctForm').reset();
+      document.querySelectorAll('#ctPlayersList .ct-player-row').forEach(r => r.remove());
+      document.getElementById('ctEmpty').style.display = '';
+      ctUpdateSummary();
+      document.querySelector('.tab-btn[data-tab="fixtures"]').click();
+    }
+
+    function ctToggleCap(btn, type) {
+      const cls = type === 'C' ? 'active-c' : 'active-vc';
+      // remove same type from all other rows
+      document.querySelectorAll('#ctPlayersList .ct-cap-btn[data-cap="' + type + '"]').forEach(b => b.classList.remove(cls));
+      btn.classList.add(cls);
+    }
+
+    async function ctSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('ctTeamName').value.trim();
+      const rows = ctRows();
+      if (!name) { ctModal('Missing Info', 'Please enter a team name.'); return; }
+      if (teamsData.some(t => t.name.toLowerCase() === name.toLowerCase())) { ctModal('Duplicate Team', `A team named "${name}" already exists. Choose a different name.`); return; }
+      if (rows.length < CT_MIN) { ctModal('Not Enough Players', `You need at least ${CT_MIN} players. You have ${rows.length}.`); return; }
+
+      // captain / vice-captain validation
+      const capBtn = document.querySelector('#ctPlayersList .ct-cap-btn.active-c');
+      const vcBtn = document.querySelector('#ctPlayersList .ct-cap-btn.active-vc');
+      if (!capBtn) { ctModal('Select Captain', 'Tap the C button next to a player to mark them as captain.'); return; }
+      if (!vcBtn) { ctModal('Select Vice Captain', 'Tap the VC button next to a player to mark them as vice-captain.'); return; }
+      const capRow = capBtn.closest('.ct-player-row');
+      const vcRow = vcBtn.closest('.ct-player-row');
+      if (capRow === vcRow) { ctModal('Same Player', 'Captain and Vice Captain must be different players.'); return; }
+
+      const newPlayers = [];
+      let ok = true;
+      rows.forEach((r, i) => {
+        const n = r.querySelector('input').value.trim();
+        const role = r.querySelector('select').value;
+        if (!n || !role) ok = false;
+        const isCap = r === capRow;
+        const isVC = r === vcRow;
+        newPlayers.push({ number: i + 1, name: n, role, team: name, captain: isCap, viceCaptain: isVC });
+      });
+      if (!ok) { ctModal('Incomplete', 'Fill in every player name and select a role.'); return; }
+
+      // Save to backend first, then update local state
+      try {
+        const res = await fetch(`${API_BASE}/teams`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, players: newPlayers, sport: 'cricket' })
+        });
+        if (!res.ok) { const e = await res.json(); ctModal('Save Error', e.message || 'Failed to save team.'); return; }
+        const { data: saved } = await res.json();
+        teamsData.push({ _id: saved._id, name: saved.name, players: saved.players });
+      } catch (err) {
+        // Offline fallback
+        teamsData.push({ name, players: newPlayers });
+        ctModal('Offline Warning', 'Backend unreachable — team saved locally only.');
+      }
+
+      renderPlayers();
+      refreshTeamsDatalist();
+      updateStats();
+
+      ctModal('Team Created! 🎉', `"${name}" with ${newPlayers.length} players has been added to the roster.`);
+
+      document.getElementById('ctForm').reset();
+      document.querySelectorAll('#ctPlayersList .ct-player-row').forEach(r => r.remove());
+      document.getElementById('ctEmpty').style.display = '';
+      ctUpdateSummary();
+    }
+
+    // ---------------------------------------------------------------------------
+    // ADD FIXTURE
+    // ---------------------------------------------------------------------------
+    function refreshTeamsDatalist() {
+      const dl = document.getElementById('teamsDatalist');
+      if (dl) dl.innerHTML = teamsData.map(t => `<option value="${t.name}">`).join('');
+    }
+
+    function openAddFixtureModal() {
+      refreshTeamsDatalist();
+      document.getElementById('fxModalOverlay').classList.add('active');
+    }
+    function closeAddFixtureModal() { document.getElementById('fxModalOverlay').classList.remove('active'); }
+
+    async function submitFixture(e) {
+      e.preventDefault();
+      const matchName = document.getElementById('fxMatchName').value.trim();
+      const teamA = document.getElementById('fxTeamA').value.trim();
+      const teamB = document.getElementById('fxTeamB').value.trim();
+      const date = document.getElementById('fxDate').value.trim();
+      const time = document.getElementById('fxTime').value.trim();
+      const venue = document.getElementById('fxVenue').value.trim();
+      const oversRaw = document.getElementById('fxOvers').value.trim();
+      const overs = Math.max(1, parseInt(oversRaw, 10) || 20);
+      const ageCategory = document.getElementById('fxAgeCategory').value;
+      if (!teamA || !teamB || teamA === teamB) { ctModal('Check Teams', 'Enter two different team names.'); return; }
+      if (!ageCategory) { ctModal('Select Age Category', 'Choose Sub Junior, Junior, Senior, or Super Senior for this fixture.'); return; }
+      if (!oversRaw || overs < 1) { ctModal('Check Overs', 'Enter a valid number of overs per innings (1 or more).'); return; }
+
+      try {
+        const res = await fetch(`${API_BASE}/fixtures`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ matchName, teamA, teamB, date, time, venue, overs, ageCategory, status: 'upcoming', sport: 'cricket' })
+        });
+        if (!res.ok) { const err = await res.json(); ctModal('Save Error', err.message || 'Failed to save fixture.'); return; }
+        const { data: saved } = await res.json();
+        // Prefer whatever the backend actually persisted for overs; fall back
+        // to the value we sent if the API response omits it for any reason.
+        const savedOvers = (saved.overs !== undefined && saved.overs !== null) ? Number(saved.overs) : overs;
+        if (savedOvers !== overs) {
+          console.warn(`Backend saved overs=${savedOvers} but ${overs} was submitted — check that the Fixture schema has an "overs" field.`);
+        }
+        fixtures.push({ _id: saved._id, id: saved._id, matchName: saved.matchName || matchName, date, time, teamA, teamB, venue, overs: savedOvers, ageCategory, status: 'upcoming', match: null });
+      } catch (err) {
+        fxIdCounter++;
+        fixtures.push({ id: fxIdCounter, matchName, date, time, teamA, teamB, venue, overs, ageCategory, status: 'upcoming', match: null });
+      }
+
+      closeAddFixtureModal();
+      document.getElementById('fxForm').reset();
+      currentFxFilter = 'all';
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.filter === 'all'));
+      persistFixturesLocal();
+      applyFxFilter();
+      updateStats();
+    }
+
+    // ---------------------------------------------------------------------------
+    // SCORECARD TAB FEATURES
+    // ---------------------------------------------------------------------------
+    let scActiveInningsIdx = 0;
+    let scSelectedFixtureId = null;
+
+    function getBattingTeamPlayers(fixtureId, inningsIdx) {
+      const f = fixtures.find(x => x.id == fixtureId);
+      if (!f || !f.match) return [];
+      const teamName = f.match.innings[inningsIdx].team;
+      const team = teamsData.find(t => t.name === teamName);
+      return team ? team.players : [];
+    }
+
+    function getFieldingTeamPlayers(fixtureId, inningsIdx) {
+      const f = fixtures.find(x => x.id == fixtureId);
+      if (!f || !f.match) return [];
+      const teamName = f.match.innings[1 - inningsIdx].team;
+      const team = teamsData.find(t => t.name === teamName);
+      return team ? team.players : [];
+    }
+
+    function getStriker(inn) { return inn.batsmen[inn.strikerIdx]; }
+    function getNonStriker(inn) { return inn.batsmen[inn.nonStrikerIdx]; }
+
+    function swapStrike(inn) {
+      const temp = inn.strikerIdx;
+      inn.strikerIdx = inn.nonStrikerIdx;
+      inn.nonStrikerIdx = temp;
+    }
+
+    function refreshScorecardSelect() {
+      const select = document.getElementById('scMatchSelect');
+      if (!select) return;
+      if (!fixtures.length) {
+        select.innerHTML = '<option value="" disabled selected>No matches scheduled yet</option>';
+        return;
+      }
+      select.innerHTML = '<option value="" disabled selected>Select a match</option>' + fixtures.map(f => `
+        <option value="${f.id}">${f.matchName ? f.matchName + ' — ' : ''}${f.teamA} vs ${f.teamB} (${f.status.toUpperCase()})</option>
+      `).join('');
+    }
+
+    function onScorecardTabOpen() {
+      // Reset toss/opener state when opening the tab fresh
+      tossWinnerChoice = null;
+      tossDecisionChoice = null;
+      openerStep = 0;
+      openerStrikerPick = null;
+
+      refreshScorecardSelect();
+      const select = document.getElementById('scMatchSelect');
+      if (!fixtures.length) {
+        document.getElementById('scorecardContainer').innerHTML = '<div class="ct-empty"><div class="ct-empty-icon">📊</div><p>No matches have been added yet. Go to the <strong>Fixtures</strong> tab to add a match.</p></div>';
+        return;
+      }
+      if (!scSelectedFixtureId || !fixtures.some(x => x.id == scSelectedFixtureId)) {
+        const liveFx = fixtures.find(x => x.status === 'live');
+        scSelectedFixtureId = liveFx ? liveFx.id : fixtures[0].id;
+      }
+      if (select) select.value = scSelectedFixtureId;
+      renderMatchScorecard(scSelectedFixtureId);
+    }
+
+    function renderMatchScorecard(fixtureId) {
+      scSelectedFixtureId = fixtureId;
+      const f = fixtures.find(x => x.id == scSelectedFixtureId);
+      if (!f) return;
+
+      const container = document.getElementById('scorecardContainer');
+
+      let togglesHtml = '';
+      let summaryCardHtml = '';
+      let batTable = '';
+      let bowlTable = '';
+      let resultHtml = '';
+      let scoringPanelHtml = '';
+
+      const matchHeaderHtml = `
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+          <div>
+            ${f.matchName ? `<div class="fixture-match-name" style="margin-bottom:2px;">${f.matchName}</div>` : ''}
+            <div style="font-family:var(--font-mono); font-size:11px; color:var(--ink-faint);">Fixture ID: ${f.id}</div>
+          </div>
+        </div>
+      `;
+
+      if (f.match && f.match.innings && f.match.innings.length) {
+        const maxInn = f.match.innings.length;
+        if (scActiveInningsIdx >= maxInn) scActiveInningsIdx = 0;
+
+        togglesHtml = '<div class="sc-innings-toggle">';
+        f.match.innings.forEach((inn, idx) => {
+          const isActive = idx === scActiveInningsIdx;
+          togglesHtml += `
+            <button class="sc-inn-btn ${isActive ? 'active' : ''}" onclick="setScorecardInnings(${idx})">
+              ${inn.team} Innings
+            </button>
+          `;
+        });
+        togglesHtml += '</div>';
+
+        const inn = f.match.innings[scActiveInningsIdx];
+
+        batTable = `
+          <div class="sc-section">
+            <h4>Batting</h4>
+            <table class="sc-table">
+              <thead>
+                <tr>
+                  <th>Batsman</th>
+                  <th class="num">R</th>
+                  <th class="num">B</th>
+                  <th class="num">SR</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+        inn.batsmen.forEach((b, idx) => {
+          let statusText = 'not out';
+          if (inn.dismissed.includes(idx)) {
+            const info = inn.dismissalInfo && inn.dismissalInfo[idx];
+            statusText = info || 'out';
+          }
+          const teamObj = teamsData.find(t => t.name === inn.team);
+          const playerObj = teamObj ? teamObj.players.find(p => p.name === b.name) : null;
+          const capBadge = playerObj && playerObj.captain ? '<span class="sc-captain">C</span>' : (playerObj && playerObj.viceCaptain ? '<span class="sc-captain" style="background:var(--amber);">VC</span>' : '');
+
+          const sr = b.balls > 0 ? ((b.runs / b.balls) * 100).toFixed(1) : '0.0';
+          batTable += `
+            <tr>
+              <td>
+                <span class="sc-name">${b.name}${capBadge}</span>
+                <span class="sc-dismissed">${statusText}</span>
+              </td>
+              <td class="num">${b.runs}</td>
+              <td class="num">${b.balls}</td>
+              <td class="num">${sr}</td>
+            </tr>
+          `;
+        });
+
+        const ovTotal = Math.floor(inn.balls / 6) + '.' + (inn.balls % 6);
+        batTable += `
+              <tr class="sc-total-row">
+                <td>Extras (w ${inn.extras.wide || 0}, nb ${inn.extras.noball || 0})</td>
+                <td class="num" colspan="3">${inn.extras.total || 0}</td>
+              </tr>
+              <tr class="sc-total-row">
+                <td>Total (${inn.wickets} wkts, ${ovTotal} ov)</td>
+                <td class="num" colspan="3" style="font-size:16px;">${inn.runs}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        `;
+
+        bowlTable = `
+          <div class="sc-section">
+            <h4>Bowling</h4>
+            <table class="sc-table">
+              <thead>
+                <tr>
+                  <th>Bowler</th>
+                  <th class="num">O</th>
+                  <th class="num">R</th>
+                  <th class="num">W</th>
+                  <th class="num">ECON</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+        inn.bowlers.forEach(b => {
+          const overs = Math.floor(b.balls / 6) + '.' + (b.balls % 6);
+          const econ = b.balls > 0 ? ((b.runs / (b.balls / 6))).toFixed(2) : '0.00';
+          bowlTable += `
+            <tr>
+              <td class="sc-name">${b.name}</td>
+              <td class="num">${overs}</td>
+              <td class="num">${b.runs}</td>
+              <td class="num">${b.wickets}</td>
+              <td class="num">${econ}</td>
+            </tr>
+          `;
+        });
+
+        if (!inn.bowlers.length) {
+          bowlTable += `<tr><td colspan="5" style="text-align:center; color:var(--ink-faint);">No bowling stats recorded yet.</td></tr>`;
+        }
+
+        bowlTable += `
+              </tbody>
+            </table>
+          </div>
+        `;
+
+        if (f.status === 'done' && f.score) {
+          resultHtml = `<div class="sc-result">${f.score}</div>`;
+          resultHtml += `<div style="text-align:center; margin-top:15px; margin-bottom:15px;">
+            <button class="ct-submit-btn" style="background:#10B981; color:white; font-size:14px; padding:10px 20px; border:none; display:inline-flex; align-items:center; gap:8px;" onclick="downloadMatchRecord('${f.id}')">
+              <span>📊 Export Scorecard to Excel</span>
+            </button>
+          </div>`;
+        } else if (f.status === 'live') {
+          resultHtml = `<div class="sc-result" style="background:var(--ink-soft);">Match is Live · Batting: ${inn.team}</div>`;
+        }
+
+        const firstInn = f.match.innings[0];
+        const secondInn = f.match.innings[1];
+        const firstOv = Math.floor(firstInn.balls / 6) + '.' + (firstInn.balls % 6);
+        let secondScoreStr = 'Yet to bat';
+        let secondOvStr = '';
+        if (secondInn && (secondInn.balls > 0 || secondInn.runs > 0 || secondInn.wickets > 0 || f.status === 'done')) {
+          const secondOv = Math.floor(secondInn.balls / 6) + '.' + (secondInn.balls % 6);
+          secondScoreStr = `${secondInn.runs}/${secondInn.wickets}`;
+          secondOvStr = `(${secondOv} ov)`;
+        }
+
+        summaryCardHtml = `
+          <div class="sc-summary-card">
+            <div class="sc-summary-team-info">
+              <div class="sc-summary-team-name">${firstInn.team}</div>
+              <div class="sc-summary-team-score">${firstInn.runs}/${firstInn.wickets}</div>
+              <div class="sc-summary-team-overs">(${firstOv} ov)</div>
+            </div>
+            <div class="sc-summary-divider">VS</div>
+            <div class="sc-summary-team-info">
+              <div class="sc-summary-team-name">${secondInn.team}</div>
+              <div class="sc-summary-team-score">${secondScoreStr}</div>
+              <div class="sc-summary-team-overs">${secondOvStr}</div>
+            </div>
+          </div>
+          <!-- Match Overs & Target Banner -->
+          <div style="background:rgba(255,255,255,0.06); border:1px solid var(--line); border-radius:8px; padding:10px 14px; margin:12px auto; max-width:480px; text-align:center; font-family:var(--font-mono); font-size:12px; color:var(--ink);">
+            🏏 <strong>${f.overs || 20} Overs Match</strong> (${(f.overs || 20) * 6} Balls / Innings) &nbsp;•&nbsp; 🎯 ${f.match.target ? `Target: <strong>${f.match.target} Runs</strong> (${(f.overs || 20) * 6 - secondInn.balls} balls left)` : `Innings 1 Limit: <strong>${f.overs || 20}.0 Overs</strong>`}
+          </div>
+        `;
+      } else {
+        resultHtml = `<div class="sc-result" style="background:var(--ink-soft);">Match Scheduled · ${f.teamA} vs ${f.teamB} · ${f.overs || 20} overs</div>`;
+      }
+
+      // Render Inline scoring controls below the tables
+      if (f.status === 'upcoming') {
+        scoringPanelHtml = `
+          <div class="sc-section" style="border-top: 1px solid var(--line); padding-top: 20px; margin-top: 20px;">
+            <h4>Toss Selector</h4>
+            <p style="color: var(--ink-soft); font-size: 13px; margin-bottom: 15px;">Who won the toss?</p>
+            <div style="display:flex; gap:10px; margin-bottom:15px;">
+              <button type="button" class="toss-choice ${tossWinnerChoice === 'A' ? 'selected' : ''}" onclick="selectTossWinnerInline('A')">${f.teamA}</button>
+              <button type="button" class="toss-choice ${tossWinnerChoice === 'B' ? 'selected' : ''}" onclick="selectTossWinnerInline('B')">${f.teamB}</button>
+            </div>
+            <p style="color: var(--ink-soft); font-size: 13px; margin-bottom: 10px;">Elected to</p>
+            <div style="display:flex; gap:10px; margin-bottom:20px;">
+              <button type="button" class="toss-choice ${tossDecisionChoice === 'bat' ? 'selected' : ''}" onclick="selectTossDecisionInline('bat')">🏏 Bat</button>
+              <button type="button" class="toss-choice ${tossDecisionChoice === 'bowl' ? 'selected' : ''}" onclick="selectTossDecisionInline('bowl')">⚡ Bowl</button>
+            </div>
+            <button type="button" class="ct-submit-btn" style="font-size:16px;" onclick="confirmTossInline('${f.id}')">Confirm Toss Decision</button>
+          </div>
+        `;
+      } else if (f.status === 'live') {
+        const innIdx = f.match.currentInnings;
+        const currentInn = f.match.innings[innIdx];
+
+        if (currentInn.batsmen.length < 2) {
+          const stepLabel = openerStep === 0 ? 'Select Striker' : 'Select Non-Striker';
+          const stepSub = openerStep === 0 ? 'Who will face the first ball?' : 'Who bats at the non-striker end?';
+          const players = getBattingTeamPlayers(f.id, innIdx);
+          const excludeNames = [];
+          if (openerStep === 1 && openerStrikerPick) {
+            excludeNames.push(openerStrikerPick);
+          }
+          const availablePlayers = players.filter(p => !excludeNames.includes(p.name));
+
+          scoringPanelHtml = `
+            <div class="sc-section" style="border-top: 1px solid var(--line); padding-top: 20px; margin-top: 20px;">
+              <h4>${stepLabel}</h4>
+              <p style="color: var(--ink-soft); font-size: 13px; margin-bottom: 15px;">${stepSub}${openerStep === 1 ? ' <strong>(Striker: ' + openerStrikerPick + ')</strong>' : ''}</p>
+              <div class="sb-player-list">
+                ${availablePlayers.map(p => `
+                  <div class="sb-player-opt" onclick="pickOpenerInline('${p.name.replace(/'/g, "\\'")}')">
+                    <span class="sb-p-num">${p.number}</span>
+                    <span class="sb-p-name">${p.name}</span>
+                    <span class="sb-p-role">${p.role}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        } else if (currentInn.currentBowlerName === null) {
+          const players = getFieldingTeamPlayers(f.id, innIdx);
+          const lastBowler = currentInn.lastBowlerName;
+          const labelSub = lastBowler ? `Select bowler for the next over. (${lastBowler} just bowled and cannot bowl consecutively)` : 'Who will bowl this over?';
+
+          scoringPanelHtml = `
+            <div class="sc-section" style="border-top: 1px solid var(--line); padding-top: 20px; margin-top: 20px;">
+              <h4>Select Bowler</h4>
+              <p style="color: var(--ink-soft); font-size: 13px; margin-bottom: 15px;">${labelSub}</p>
+              <div class="sb-player-list">
+                ${(lastBowler ? players.filter(p => p.name !== lastBowler) : players).map(p => `
+                  <div class="sb-player-opt" onclick="pickBowlerInline('${p.name.replace(/'/g, "\\'")}')">
+                    <span class="sb-p-num">${p.number}</span>
+                    <span class="sb-p-name">${p.name}</span>
+                    <span class="sb-p-role">${p.role}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        } else if (currentInn.wickets < 10 && currentInn.batsmen.length < currentInn.wickets + 2 && currentInn.batsmen.length < getBattingTeamPlayers(f.id, innIdx).length) {
+          const teamPlayers = getBattingTeamPlayers(f.id, innIdx);
+          const usedNames = currentInn.batsmen.map(b => b.name);
+          const available = teamPlayers.filter(p => !usedNames.includes(p.name));
+
+          scoringPanelHtml = `
+            <div class="sc-section" style="border-top: 1px solid var(--line); padding-top: 20px; margin-top: 20px;">
+              <h4>Wicket! Select Next Batsman</h4>
+              <p style="color: var(--ink-soft); font-size: 13px; margin-bottom: 15px;">Pick a batsman to face the bowling crease.</p>
+              <div class="sb-player-list">
+                ${available.map(p => `
+                  <div class="sb-player-opt" onclick="pickNewBatsmanInline('${p.name.replace(/'/g, "\\'")}')">
+                    <span class="sb-p-num">${p.number}</span>
+                    <span class="sb-p-name">${p.name}</span>
+                    <span class="sb-p-role">${p.role}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        } else {
+          const striker = getStriker(currentInn);
+          const nonStriker = getNonStriker(currentInn);
+          const bowler = currentInn.bowlers.find(x => x.name === currentInn.currentBowlerName);
+          const bowlerOvers = bowler ? (Math.floor(bowler.balls / 6) + '.' + (bowler.balls % 6)) : '0.0';
+          const progressPercent = Math.min((currentInn.balls / (f.overs * 6)) * 100, 100);
+          const currentOvers = Math.floor(currentInn.balls / 6) + '.' + (currentInn.balls % 6);
+
+          const batsmenStripHtml = `
+              <div class="sb-batsmen" style="margin-top: 10px;">
+                <div class="sb-bat-card on-strike" style="border-color: var(--accent); background: rgba(27,138,90,.06);">
+                  <div class="sb-strike-dot" style="display: block;"></div>
+                  <div class="sb-bat-label">Striker</div>
+                  <div class="sb-bat-name">${striker ? striker.name : '—'}</div>
+                  <div class="sb-bat-runs">${striker ? `${striker.runs} (${striker.balls})` : '0 (0)'}</div>
+                </div>
+                <div class="sb-bat-card">
+                  <div class="sb-strike-dot" style="display: none;"></div>
+                  <div class="sb-bat-label">Non-Striker</div>
+                  <div class="sb-bat-name">${nonStriker ? nonStriker.name : '—'}</div>
+                  <div class="sb-bat-runs">${nonStriker ? `${nonStriker.runs} (${nonStriker.balls})` : '0 (0)'}</div>
+                </div>
+              </div>
+              
+              <div class="sb-bowler-strip" style="margin-top: 10px; display: flex;">
+                <span class="sb-bowl-label">Bowler</span>
+                <span class="sb-bowl-name">${currentInn.currentBowlerName}</span>
+                <span class="sb-bowl-figs">${bowler ? `${bowler.wickets}-${bowler.runs} (${bowlerOvers} ov)` : '0-0 (0.0 ov)'}</span>
+              </div>
+
+              <div class="sb-overs-bar" style="margin-top: 10px; margin-bottom: 15px; display: flex;">
+                <div class="sb-overs-track"><div class="sb-overs-fill" style="width: ${progressPercent}%;"></div></div>
+                <span class="sb-overs-text">${currentOvers} / ${f.overs} ov</span>
+              </div>
+          `;
+
+          if (pendingWicketDismissal) {
+            scoringPanelHtml = `
+              <div class="sc-section" style="border-top: 1px solid var(--line); padding-top: 20px; margin-top: 20px;">
+                <h4>How was ${striker ? striker.name : 'the batsman'} out?</h4>
+                ${batsmenStripHtml}
+                <p style="color: var(--ink-soft); font-size: 13px; margin: 16px 0 12px;">Select the dismissal type.</p>
+                <div class="sb-btn-grid" style="grid-template-columns: repeat(2, 1fr);">
+                  <button type="button" class="sb-btn" onclick="confirmDismissalInline('Bowled')">Bowled</button>
+                  <button type="button" class="sb-btn" onclick="confirmDismissalInline('Caught')">Caught</button>
+                  <button type="button" class="sb-btn" onclick="confirmDismissalInline('LBW')">LBW</button>
+                  <button type="button" class="sb-btn" onclick="confirmDismissalInline('Run Out')">Run Out</button>
+                  <button type="button" class="sb-btn" onclick="confirmDismissalInline('Stumped')">Stumped</button>
+                  <button type="button" class="sb-btn" onclick="confirmDismissalInline('Hit Wicket')">Hit Wicket</button>
+                </div>
+                <button type="button" class="ct-btn-add" style="margin-top:14px; width:100%; justify-content:center;" onclick="cancelDismissalInline()">← Back</button>
+              </div>
+            `;
+          } else {
+            scoringPanelHtml = `
+              <div class="sc-section" style="border-top: 1px solid var(--line); padding-top: 20px; margin-top: 20px;">
+                <h4>Enter Score</h4>
+                ${batsmenStripHtml}
+
+                <div class="sb-btn-grid">
+                  <button type="button" class="sb-btn" onclick="sbScoreInline(0)">0</button>
+                  <button type="button" class="sb-btn" onclick="sbScoreInline(1)">1</button>
+                  <button type="button" class="sb-btn" onclick="sbScoreInline(2)">2</button>
+                  <button type="button" class="sb-btn" onclick="sbScoreInline(3)">3</button>
+                  <button type="button" class="sb-btn sb-boundary" onclick="sbScoreInline(4)">4</button>
+                  <button type="button" class="sb-btn sb-boundary" onclick="sbScoreInline(6)">6</button>
+                  <button type="button" class="sb-btn sb-extra" onclick="sbExtraInline('wide')">Wide</button>
+                  <button type="button" class="sb-btn sb-extra" onclick="sbExtraInline('noball')">No Ball</button>
+                  <button type="button" class="sb-btn sb-wicket" onclick="sbWicketInline()">Wicket</button>
+                </div>
+                
+                <div style="margin-top: 15px;">
+                  <button type="button" class="ct-submit-btn" style="font-size:14px; padding:12px;" onclick="sbEndInningsInline()">${f.match.currentInnings === 0 ? 'End Innings' : 'End Match'}</button>
+                </div>
+              </div>
+            `;
+          }
+        }
+      }
+
+      container.innerHTML = matchHeaderHtml + togglesHtml + summaryCardHtml + batTable + bowlTable + resultHtml + scoringPanelHtml;
+      syncFeaturedMatch(f, 'Cricket');
+    }
+
+    // ---------------------------------------------------------------------------
+    // INLINE SCORING HELPER FUNCTIONS
+    // ---------------------------------------------------------------------------
+    let tossWinnerChoice = null;
+    let tossDecisionChoice = null;
+    let openerStep = 0;
+    let openerStrikerPick = null;
+    let pendingWicketDismissal = false;
+
+    function selectTossWinnerInline(letter) {
+      tossWinnerChoice = letter;
+      renderMatchScorecard(scSelectedFixtureId);
+    }
+
+    function selectTossDecisionInline(dec) {
+      tossDecisionChoice = dec;
+      renderMatchScorecard(scSelectedFixtureId);
+    }
+
+    function confirmTossInline(fixtureId) {
+      if (!tossWinnerChoice || !tossDecisionChoice) { ctModal('Almost there', 'Choose who won the toss and what they elected to do.'); return; }
+      const f = fixtures.find(x => x.id == fixtureId);
+      if (!f) return;
+      const winnerName = tossWinnerChoice === 'A' ? f.teamA : f.teamB;
+      const otherName = tossWinnerChoice === 'A' ? f.teamB : f.teamA;
+      const battingFirst = tossDecisionChoice === 'bat' ? winnerName : otherName;
+      const battingSecond = battingFirst === f.teamA ? f.teamB : f.teamA;
+
+      f.status = 'live';
+      f.match = {
+        tossWinner: winnerName,
+        decision: tossDecisionChoice,
+        currentInnings: 0,
+        target: null,
+        innings: [
+          { team: battingFirst, runs: 0, wickets: 0, balls: 0, batsmen: [], strikerIdx: 0, nonStrikerIdx: 1, dismissed: [], dismissalInfo: {}, bowlers: [], currentBowlerName: null, lastBowlerName: null, extras: { wide: 0, noball: 0, total: 0 } },
+          { team: battingSecond, runs: 0, wickets: 0, balls: 0, batsmen: [], strikerIdx: 0, nonStrikerIdx: 1, dismissed: [], dismissalInfo: {}, bowlers: [], currentBowlerName: null, lastBowlerName: null, extras: { wide: 0, noball: 0, total: 0 } }
+        ]
+      };
+
+      openerStep = 0;
+      openerStrikerPick = null;
+      pendingWicketDismissal = false;
+      applyFxFilter();
+      updateStats();
+      saveFixtureState(f);
+      renderMatchScorecard(fixtureId);
+    }
+
+    function pickOpenerInline(name) {
+      const f = fixtures.find(x => x.id == scSelectedFixtureId);
+      if (!f || !f.match) return;
+      const inn = f.match.innings[f.match.currentInnings];
+      if (openerStep === 0) {
+        // Picked the striker — now ask for non-striker
+        openerStrikerPick = name;
+        openerStep = 1;
+      } else {
+        // Picked the non-striker — prevent same player as striker
+        if (name === openerStrikerPick) return;
+        inn.batsmen = [
+          { name: openerStrikerPick, runs: 0, balls: 0 },
+          { name, runs: 0, balls: 0 }
+        ];
+        inn.strikerIdx = 0;
+        inn.nonStrikerIdx = 1;
+        // Reset opener state after both are selected
+        openerStep = 0;
+        openerStrikerPick = null;
+      }
+      saveFixtureState(f);
+      renderMatchScorecard(scSelectedFixtureId);
+    }
+
+    function pickBowlerInline(name) {
+      const f = fixtures.find(x => x.id === scSelectedFixtureId);
+      if (!f || !f.match) return;
+      const inn = f.match.innings[f.match.currentInnings];
+
+      let b = inn.bowlers.find(x => x.name === name);
+      if (!b) {
+        b = { name: name, overs: 0, maiden: 0, runs: 0, wickets: 0, balls: 0 };
+        inn.bowlers.push(b);
+      }
+
+      inn.currentBowlerName = name;
+      saveFixtureState(f);
+      renderMatchScorecard(scSelectedFixtureId);
+    }
+
+    function pickNewBatsmanInline(name) {
+      const f = fixtures.find(x => x.id === scSelectedFixtureId);
+      if (!f || !f.match) return;
+      const inn = f.match.innings[f.match.currentInnings];
+      const newIdx = inn.batsmen.length;
+      inn.batsmen.push({ name, runs: 0, balls: 0 });
+
+      const dismissedIdx = inn.dismissed[inn.dismissed.length - 1];
+      if (inn.nonStrikerIdx === dismissedIdx) {
+        inn.nonStrikerIdx = newIdx;
+      } else {
+        inn.strikerIdx = newIdx;
+      }
+      saveFixtureState(f);
+      renderMatchScorecard(scSelectedFixtureId);
+    }
+
+    // Checks whether the over (6 legal balls) or the innings (max overs) has
+    // just finished. Called only after a *legal* delivery (a run-scoring ball
+    // or a wicket ball) — wides/no-balls don't count toward the over.
+    // Returns: 'innings-end' | 'over-end' | null
+    function checkOverEndInline(inn, f) {
+      const maxBalls = (f.overs || 20) * 6;
+      if (inn.balls >= maxBalls) {
+        return 'innings-end';
+      }
+      if (inn.balls > 0 && inn.balls % 6 === 0) {
+        inn.lastBowlerName = inn.currentBowlerName;
+        inn.currentBowlerName = null;
+        swapStrike(inn);
+        return 'over-end';
+      }
+      return null;
+    }
+
+    function sbScoreInline(runs) {
+      const f = fixtures.find(x => x.id === scSelectedFixtureId);
+      const inn = f.match.innings[f.match.currentInnings];
+      inn.runs += runs;
+      inn.balls += 1;
+
+      const striker = getStriker(inn);
+      if (striker) { striker.runs += runs; striker.balls += 1; }
+
+      if (inn.currentBowlerName) {
+        const b = inn.bowlers.find(x => x.name === inn.currentBowlerName);
+        if (b) { b.runs += runs; b.balls += 1; }
+      }
+
+      if (runs % 2 === 1) swapStrike(inn);
+
+      if (f.match.currentInnings === 1 && f.match.target && inn.runs >= f.match.target) {
+        saveFixtureState(f);
+        sbEndMatchInline();
+        return;
+      }
+
+      // Ask for a new bowler once 6 legal balls have been bowled, or end
+      // the innings once the overs limit for this match has been reached.
+      const overStatus = checkOverEndInline(inn, f);
+      saveFixtureState(f);
+      if (overStatus === 'innings-end') { sbEndInningsInline(); return; }
+      renderMatchScorecard(scSelectedFixtureId);
+    }
+
+    function sbExtraInline(type) {
+      const f = fixtures.find(x => x.id === scSelectedFixtureId);
+      const inn = f.match.innings[f.match.currentInnings];
+      inn.runs += 1;
+      inn.extras[type] = (inn.extras[type] || 0) + 1;
+      inn.extras.total += 1;
+
+      if (inn.currentBowlerName) {
+        const b = inn.bowlers.find(x => x.name === inn.currentBowlerName);
+        if (b) { b.runs += 1; }
+      }
+
+      // Wides/no-balls are illegal deliveries — they don't count toward the
+      // over, so no over-end / bowler-change check happens here.
+      saveFixtureState(f);
+      if (f.match.currentInnings === 1 && f.match.target && inn.runs >= f.match.target) {
+        sbEndMatchInline();
+        return;
+      }
+      renderMatchScorecard(scSelectedFixtureId);
+    }
+
+    // Clicking "Wicket" no longer finalizes the dismissal immediately — it
+    // first asks how the batsman got out.
+    function sbWicketInline() {
+      pendingWicketDismissal = true;
+      renderMatchScorecard(scSelectedFixtureId);
+    }
+
+    function cancelDismissalInline() {
+      pendingWicketDismissal = false;
+      renderMatchScorecard(scSelectedFixtureId);
+    }
+
+    function confirmDismissalInline(type) {
+      const f = fixtures.find(x => x.id === scSelectedFixtureId);
+      const inn = f.match.innings[f.match.currentInnings];
+
+      inn.wickets += 1;
+      inn.balls += 1;
+
+      const strikerIdx = inn.strikerIdx;
+      const striker = inn.batsmen[strikerIdx];
+      if (striker) striker.balls += 1;
+      inn.dismissed.push(strikerIdx);
+
+      const bowlerName = inn.currentBowlerName;
+      // Run outs (and, in this simplified scorer, hit-wicket assists) are
+      // the only dismissal that doesn't credit the bowler with a wicket.
+      const creditsBowler = ['Bowled', 'Caught', 'LBW', 'Stumped', 'Hit Wicket'].includes(type);
+
+      if (bowlerName) {
+        const b = inn.bowlers.find(x => x.name === bowlerName);
+        if (b) {
+          b.balls += 1;
+          if (creditsBowler) b.wickets += 1;
+        }
+      }
+
+      let dismissalText;
+      switch (type) {
+        case 'Bowled': dismissalText = `b ${bowlerName || ''}`; break;
+        case 'Caught': dismissalText = `c & b ${bowlerName || ''}`; break;
+        case 'LBW': dismissalText = `lbw b ${bowlerName || ''}`; break;
+        case 'Stumped': dismissalText = `st b ${bowlerName || ''}`; break;
+        case 'Hit Wicket': dismissalText = `hit wicket b ${bowlerName || ''}`; break;
+        case 'Run Out': dismissalText = 'run out'; break;
+        default: dismissalText = type;
+      }
+      if (!inn.dismissalInfo) inn.dismissalInfo = {};
+      inn.dismissalInfo[strikerIdx] = dismissalText;
+
+      pendingWicketDismissal = false;
+
+      if (inn.wickets >= 10 || inn.batsmen.length >= getBattingTeamPlayers(scSelectedFixtureId, f.match.currentInnings).length) {
+        saveFixtureState(f);
+        sbEndInningsInline();
+        return;
+      }
+
+      const overStatus = checkOverEndInline(inn, f);
+      saveFixtureState(f);
+      if (overStatus === 'innings-end') { sbEndInningsInline(); return; }
+
+      renderMatchScorecard(scSelectedFixtureId);
+    }
+
+    function sbEndInningsInline() {
+      const f = fixtures.find(x => x.id === scSelectedFixtureId);
+      if (!f || !f.match) return;
+      const m = f.match;
+      if (m.currentInnings === 0) {
+        m.target = m.innings[0].runs + 1;
+        m.currentInnings = 1;
+        // Reset opener state for 2nd innings
+        openerStep = 0;
+        openerStrikerPick = null;
+        pendingWicketDismissal = false;
+        scActiveInningsIdx = 1;
+      } else {
+        sbEndMatchInline();
+        return;
+      }
+      applyFxFilter();
+      saveFixtureState(f);
+      renderMatchScorecard(scSelectedFixtureId);
+    }
+
+    function sbEndMatchInline() {
+      const f = fixtures.find(x => x.id === scSelectedFixtureId);
+      const m = f.match;
+      const first = m.innings[0], second = m.innings[1];
+      let result;
+      if (second.runs >= m.target) {
+        const wLeft = 10 - second.wickets;
+        result = `${second.team} won by ${wLeft} wicket${wLeft === 1 ? '' : 's'}`;
+      } else if (second.runs === first.runs) {
+        result = 'Match tied';
+      } else {
+        const runDiff = first.runs - second.runs;
+        result = `${first.team} won by ${runDiff} run${runDiff === 1 ? '' : 's'}`;
+      }
+      f.status = 'done';
+      f.score = result;
+      applyFxFilter();
+      updateStats();
+      saveFixtureState(f);
+      renderMatchScorecard(scSelectedFixtureId);
+    }
+
+    function downloadMatchRecord(fixtureId) {
+      const f = fixtures.find(x => x.id === fixtureId);
+      if (!f || !f.match) return;
+      const m = f.match;
+
+      let csvContent = "";
+
+      // Match Summary
+      csvContent += "MATCH SCORECARD - CRICKET\n";
+      csvContent += `Fixture ID,${f.id}\n`;
+      csvContent += `Match Name,${f.matchName || ''}\n`;
+      csvContent += `Match,${f.teamA} vs ${f.teamB}\n`;
+      csvContent += `Date,${f.date}\n`;
+      csvContent += `Time,${f.time}\n`;
+      csvContent += `Venue,${f.venue || "Main Oval"}\n`;
+      csvContent += `Overs per Innings,${f.overs || 20}\n`;
+      csvContent += `Toss Winner,${m.tossWinner}\n`;
+      csvContent += `Toss Decision,Elected to ${m.decision}\n`;
+      csvContent += `Status,Completed\n`;
+      csvContent += `Result,${f.score}\n\n`;
+
+      // Innings Scorecards
+      m.innings.forEach((inn, innIdx) => {
+        const ovs = Math.floor(inn.balls / 6) + '.' + (inn.balls % 6);
+        csvContent += `INNINGS ${innIdx + 1}: ${inn.team.toUpperCase()} (${inn.runs}/${inn.wickets} in ${ovs} overs)\n`;
+        csvContent += `Extras Wide,${inn.extras.wide},Extras No Ball,${inn.extras.noball},Total Extras,${inn.extras.total}\n\n`;
+
+        // Batsmen Stats
+        csvContent += "BATTING STATS\n";
+        csvContent += "Batsman,Runs,Balls,Strike Rate,Dismissal\n";
+        inn.batsmen.forEach((b, idx) => {
+          const sr = b.balls > 0 ? ((b.runs / b.balls) * 100).toFixed(2) : "0.00";
+          const dismissalText = (inn.dismissalInfo && inn.dismissalInfo[idx]) || (inn.dismissed.includes(idx) ? 'out' : 'not out');
+          csvContent += `"${b.name}",${b.runs},${b.balls},${sr},"${dismissalText}"\n`;
+        });
+
+        csvContent += "\n";
+
+        // Bowlers Stats
+        csvContent += "BOWLING STATS\n";
+        csvContent += "Bowler,Overs,Maiden,Runs,Wickets,Economy\n";
+        inn.bowlers.forEach(b => {
+          const bOvs = Math.floor(b.balls / 6) + '.' + (b.balls % 6);
+          const econ = b.balls > 0 ? ((b.runs / b.balls) * 6).toFixed(2) : "0.00";
+          csvContent += `"${b.name}",${bOvs},${b.maiden},${b.runs},${b.wickets},${econ}\n`;
+        });
+
+        csvContent += "\n-----------------------------------------\n\n";
+      });
+
+      // Download link creation
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `Cricket_Match_${f.id}_${f.teamA}_vs_${f.teamB}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function setScorecardInnings(idx) {
+      scActiveInningsIdx = idx;
+      renderMatchScorecard(scSelectedFixtureId);
+    }
+
+    // initial render
+    applyFxFilter();
+    renderPlayers();
+    updateStats();
+  </script>
+
+  <!-- Info / confirmation modal -->
+  <div class="ct-modal-overlay" id="ctModalOverlay">
+    <div class="ct-modal">
+      <h3 id="ctModalTitle"></h3>
+      <p id="ctModalBody"></p>
+      <button class="ct-modal-btn" onclick="ctCloseModal()">Got it</button>
+    </div>
+  </div>
+
+  <!-- Add Fixture modal -->
+  <div class="ct-modal-overlay" id="fxModalOverlay">
+    <div class="ct-modal" style="max-width:440px;">
+      <h3>Add Fixture</h3>
+      <p style="margin-bottom:16px;">Pick two teams (start typing to see created teams) and schedule the match.</p>
+      <form id="fxForm" onsubmit="submitFixture(event)">
+        <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+          <input type="text" id="fxMatchName" class="fx-input" placeholder="Match name (e.g. Semi Final 1) — optional">
+          <input type="text" id="fxTeamA" list="teamsDatalist" class="fx-input" placeholder="Team A name" required>
+          <input type="text" id="fxTeamB" list="teamsDatalist" class="fx-input" placeholder="Team B name" required>
+          <datalist id="teamsDatalist"></datalist>
+          <input type="text" id="fxDate" class="fx-input" placeholder="Date (e.g. JUL 14)" required>
+          <input type="text" id="fxTime" class="fx-input" placeholder="Time (e.g. 4:00 PM)" required>
+          <input type="text" id="fxVenue" class="fx-input" placeholder="Venue (e.g. Ground A)" required>
+          <input type="number" id="fxOvers" class="fx-input" placeholder="Overs per Innings (e.g. 5)" min="1" step="1" required>
+          <select id="fxAgeCategory" class="fx-input" required>
+            <option value="" disabled selected>Select Age Category</option>
+            <option value="Sub Junior">Sub Junior</option>
+            <option value="Junior">Junior</option>
+            <option value="Senior">Senior</option>
+            <option value="Super Senior">Super Senior</option>
+          </select>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button type="button" class="ct-btn-add" style="flex:1; justify-content:center; padding:16px;"
+            onclick="closeAddFixtureModal()">← Back</button>
+          <button type="submit" class="ct-submit-btn" style="flex:2; font-size:16px;">Add Fixture</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+
+</html>

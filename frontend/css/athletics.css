@@ -1,0 +1,19 @@
+:root {
+  --primary: #e74c3c;
+  --primary-glow: rgba(231, 76, 60, 0.4);
+  --primary-gradient: linear-gradient(135deg, #f1c40f, #e74c3c);
+  --bg-gradient: linear-gradient(135deg, #1c0f13 0%, #36171f 100%);
+  --accent: #f1c40f;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.04;
+  background: repeating-linear-gradient(90deg, var(--accent) 0, var(--accent) 1px, transparent 0, transparent 40px);
+}

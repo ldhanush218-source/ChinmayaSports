@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scorecards — Chinmaya Sport</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --bg: #F8FAFC; --surface: #FFFFFF; --surface-alt: #F1F5F9;
+      --line: #E2E8F0; --ink: #0F172A; --ink-soft: #475569; --ink-faint: #94A3B8;
+      --brand: #4F46E5; --brand-dark: #3730A3; --amber: #D97706; --live: #EF4444;
+
+      --cricket: #10B981; --cricket-dark: #047857;
+      --football: #3B82F6; --football-dark: #1D4ED8;
+      --badminton: #8B5CF6; --badminton-dark: #6D28D9;
+      --basketball: #F97316; --basketball-dark: #C2410C;
+      --volleyball: #06B6D4; --volleyball-dark: #0891B2;
+      --athletics: #EAB308; --athletics-dark: #CA8A04;
+      --hockey: #D946EF; --hockey-dark: #A21CAF;
+
+      --accent: var(--brand); --accent-dark: var(--brand-dark);
+      --radius-lg: 28px; --radius-md: 18px; --radius-sm: 10px;
+      --shadow-card: 0 4px 6px -1px rgba(15,23,42,.05), 0 10px 15px -3px rgba(15,23,42,.03);
+      --font-display: 'Anton','Arial Narrow',sans-serif;
+      --font-body: 'Inter',system-ui,sans-serif;
+      --font-mono: 'Space Mono',monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--font-body); -webkit-font-smoothing: antialiased; line-height: 1.5; }
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    button { font-family: inherit; cursor: pointer; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+    /* ---------- header (identical to home.html) ---------- */
+    .site-header { position: sticky; top: 0; z-index: 40; background: rgba(248,250,252,.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: 76px; }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-mark { width: 38px; height: 38px; border-radius: 10px; background: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .brand-mark svg { width: 20px; height: 20px; }
+    .brand-word { font-family: var(--font-display); font-size: 20px; letter-spacing: .01em; line-height: 1; color: var(--ink); }
+    .brand-word small { display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em; color: var(--ink-soft); font-weight: 400; margin-top: 3px; text-transform: uppercase; }
+    .main-nav { display: flex; align-items: center; gap: 28px; }
+    .main-nav a { font-size: 14px; font-weight: 600; color: var(--ink-soft); transition: color .15s ease; }
+    .main-nav a:hover, .main-nav a.active { color: var(--brand); }
+    .nav-toggle { display: none; width: 44px; height: 44px; border-radius: 10px; background: rgba(15,23,42,.05); border: 1px solid var(--line); align-items: center; justify-content: center; color: var(--ink); }
+    @media (max-width:840px) {
+      .main-nav { position: fixed; inset: 76px 0 auto 0; flex-direction: column; align-items: flex-start; gap: 0; background: var(--bg); border-bottom: 1px solid var(--line); padding: 8px 24px 20px; transform: translateY(-8px); opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .18s ease; }
+      .main-nav.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+      .main-nav a { padding: 12px 0; width: 100%; border-bottom: 1px solid var(--line); }
+      .nav-toggle { display: flex; }
+    }
+
+    /* ---------- hero (identical structure/feel to home.html) ---------- */
+    .hero { background: linear-gradient(rgba(248,250,252,.9), rgba(248,250,252,.95)), url('sports_bg.png'); background-size: cover; background-position: center; color: var(--ink); padding: 80px 0 70px; position: relative; overflow: hidden; }
+    .hero-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(99,102,241,.12) 0%, transparent 70%); pointer-events: none; z-index: 1; }
+    .hero-lines { position: absolute; inset: 0; opacity: .12; z-index: 1; background-image: linear-gradient(#C7D2FE 1px, transparent 1px), linear-gradient(90deg, #C7D2FE 1px, transparent 1px); background-size: 40px 40px; }
+    .hero .wrap { position: relative; z-index: 2; text-align: center; }
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 13px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--brand); margin-bottom: 20px; }
+    .hero h1 { font-family: var(--font-display); font-size: clamp(44px,7vw,76px); line-height: .92; letter-spacing: -.01em; margin-bottom: 16px; text-transform: uppercase; background: linear-gradient(135deg, #0F172A 30%, #4F46E5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p { font-size: 17px; max-width: 58ch; color: var(--ink-soft); margin: 0 auto; line-height: 1.6; }
+
+    /* ---------- stat dashboard (identical component to home.html) ---------- */
+    .dashboard-stats { margin-top: -36px; position: relative; z-index: 10; }
+    .dashboard-stats .grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    @media (max-width:768px) { .dashboard-stats .grid { grid-template-columns: 1fr; } }
+    .stat-tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 24px; display: flex; align-items: center; gap: 18px; box-shadow: var(--shadow-card); }
+    .stat-tile-icon { width: 52px; height: 52px; border-radius: 12px; background: rgba(99,102,241,.08); display: flex; align-items: center; justify-content: center; font-size: 24px; }
+    .stat-tile-info .num { font-family: var(--font-mono); font-weight: 700; font-size: 32px; line-height: 1.1; color: var(--ink); }
+    .stat-tile-info .label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); margin-top: 4px; }
+
+    /* ---------- sport tabs ---------- */
+    .sport-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 56px 0 40px; }
+    .sport-tab { display: flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-family: var(--font-mono); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); box-shadow: var(--shadow-card); transition: all .18s ease; }
+    .sport-tab.active { background: var(--tab-color, var(--brand)); border-color: var(--tab-color, var(--brand)); color: #fff; transform: translateY(-1px); }
+    .sport-tab:hover:not(.active) { border-color: var(--ink-faint); transform: translateY(-1px); }
+
+    .section-title { font-family: var(--font-display); font-size: 30px; text-transform: uppercase; margin-bottom: 10px; text-align: center; }
+    .section-subtitle { font-size: 14px; color: var(--ink-soft); max-width: 52ch; margin: 0 auto 36px; text-align: center; }
+
+    /* ---------- match cards (arena-card treatment) ---------- */
+    #matchList { display: flex; flex-direction: column; gap: 18px; padding-bottom: 100px; }
+    .empty-state { text-align: center; padding: 60px 24px; color: var(--ink-soft); background: var(--surface); border: 1px dashed var(--line); border-radius: var(--radius-md); }
+    .match-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-card); overflow: hidden; position: relative; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .match-card::before { content: ''; position: absolute; left: 0; top: 0; height: 4px; width: 100%; background: var(--sport-color, var(--brand)); }
+    .match-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(15,23,42,.08); }
+    .match-summary { padding: 22px 26px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; cursor: pointer; }
+    .match-teams { font-family: var(--font-display); font-size: 22px; letter-spacing: .01em; }
+    .match-score { font-family: var(--font-mono); font-weight: 700; font-size: 26px; color: var(--sport-color, var(--ink)); }
+    .match-meta { display: flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft); text-transform: uppercase; margin-top: 6px; }
+    .status-pill { font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; white-space: nowrap; border: 1px solid transparent; }
+    .status-live { background: #FDE2E7; color: var(--live); display: flex; align-items: center; gap: 6px; border-color: #FBCFE8; }
+    .status-live .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--live); animation: pulse 1.4s infinite; }
+    .status-done { background: var(--surface-alt); color: var(--ink-soft); border-color: var(--line); }
+    .status-upcoming { background: var(--surface-alt); color: var(--ink-faint); border-color: var(--line); }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+    .match-detail { display: none; border-top: 1px solid var(--line); padding: 22px 26px 28px; background: var(--surface-alt); }
+    .match-detail.open { display: block; }
+    .detail-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; font-size: 14px; }
+    .inn-toggle { display: flex; gap: 8px; margin-bottom: 16px; }
+    .inn-toggle button { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-family: var(--font-mono); font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--ink-soft); }
+    .inn-toggle button.active { background: var(--sport-color, var(--ink)); color: #fff; border-color: var(--sport-color, var(--ink)); }
+    table.sc-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: var(--surface); border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-card); }
+    table.sc-table th, table.sc-table td { padding: 10px 14px; font-size: 13px; text-align: left; border-bottom: 1px solid var(--line); }
+    table.sc-table th { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); background: var(--surface-alt); }
+   table.sc-table td.num,
+table.sc-table th.num { text-align: right; font-family: var(--font-mono); }
+    .events-log { display: flex; flex-direction: column; gap: 7px; max-height: 260px; overflow-y: auto; }
+    .events-log .ev { font-size: 13px; padding: 10px 14px; background: var(--surface); border-radius: var(--radius-sm); display: flex; gap: 12px; align-items: center; box-shadow: var(--shadow-card); }
+    .events-log .ev .ev-min { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); min-width: 36px; }
+    .section-h { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); margin: 18px 0 10px; }
+
+    /* ---------- athletics leaderboard ---------- */
+    .event-chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+    .event-chip-row button { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--ink-soft); box-shadow: var(--shadow-card); }
+    .event-chip-row button.active { background: var(--athletics); border-color: var(--athletics); color: #fff; }
+
+    /* ---------- footer (identical to home.html) ---------- */
+    .site-footer { border-top: 1px solid var(--line); padding: 48px 0; background: var(--surface); }
+    .site-footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+    .footer-logo { font-family: var(--font-display); font-size: 22px; color: var(--ink); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: var(--ink-soft); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .04em; }
+    .footer-links a:hover { color: var(--brand); }
+    .footer-copyright { width: 100%; font-size: 12px; color: var(--ink-faint); margin-top: 24px; font-family: var(--font-mono); text-align: center; }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a href="home.html" class="brand">
+        <span class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12c4-6 12-6 16 0" stroke="#F2A93B" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="2.4" fill="#F2A93B"/></svg>
+        </span>
+        <span class="brand-word">CHINMAYA SPORT<small>Annual Meet · 2026</small></span>
+      </a>
+      <nav class="main-nav" id="mainNav">
+        <a href="home.html">Home</a>
+        <a href="home.html#arena">Sports Arena</a>
+        <a href="home.html#featured">Live Highlights</a>
+        <a href="scorecard.html" class="active">Scorecard</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-lines"></div>
+    <div class="wrap">
+      <div class="hero-eyebrow">Annual Meet · 2026</div>
+      <h1>Every match.<br>Every number.</h1>
+      <p>Live scores, completed results, and full breakdowns for every arena — updated in real time, straight from the ground.</p>
+    </div>
+  </section>
+
+  <!-- Stat dashboard -->
+  <div class="dashboard-stats">
+    <div class="wrap">
+      <div class="grid">
+        <div class="stat-tile">
+          <div class="stat-tile-icon">🔴</div>
+          <div class="stat-tile-info"><div class="num" id="statLive">—</div><div class="label">Matches Live</div></div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-tile-icon">✅</div>
+          <div class="stat-tile-info"><div class="num" id="statDone">—</div><div class="label">Completed</div></div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-tile-icon">📅</div>
+          <div class="stat-tile-info"><div class="num" id="statUpcoming">—</div><div class="label">Upcoming</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="sport-tabs" id="sportTabs"></div>
+    <h2 class="section-title" id="sportTitle">Cricket Scorecards</h2>
+    <p class="section-subtitle">Tap any match to expand its full read-only scorecard.</p>
+    <div id="matchList"><div class="empty-state">Loading matches…</div></div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-logo">CHINMAYA SPORT</div>
+      <div class="footer-links">
+        <a href="home.html">Home</a>
+        <a href="home.html#arena">Arena</a>
+        <a href="scorecard.html">Scorecard</a>
+        <a href="sports/football.html">Football</a>
+        <a href="sports/cricket.html">Cricket</a>
+      </div>
+      <div class="footer-copyright">CHINMAYA SPORT — ANNUAL MEET 2026 · DEVELOPED FOR COMPETITIVE EXCELLENCE</div>
+    </div>
+  </footer>
+
+  <script>
+    const API = 'http://localhost:5001/api';
+    const SPORTS = [
+      { key: 'cricket',    label: 'Cricket',    emoji: '🏏', color: 'var(--cricket)' },
+      { key: 'football',   label: 'Football',   emoji: '⚽', color: 'var(--football)' },
+      { key: 'hockey',     label: 'Hockey',     emoji: '🏑', color: 'var(--hockey)' },
+      { key: 'volleyball', label: 'Volleyball', emoji: '🏐', color: 'var(--volleyball)' },
+      { key: 'basketball', label: 'Basketball', emoji: '🏀', color: 'var(--basketball)' },
+      { key: 'badminton',  label: 'Badminton',  emoji: '🏸', color: 'var(--badminton)' },
+      { key: 'athletics',  label: 'Athletics',  emoji: '🏃', color: 'var(--athletics)' },
+    ];
+
+    let currentSport = 'cricket';
+    let openFixtureId = null;
+    let scInningsIdx = 0;
+    let athEventFilter = null;
+
+    const EVENT_CONFIG = {
+      '100m': { label: '100m', unit: 's', lowIsBest: true },
+      '200m': { label: '200m', unit: 's', lowIsBest: true },
+      '400m': { label: '400m', unit: 's', lowIsBest: true },
+      '600m': { label: '600m', unit: 's', lowIsBest: true },
+      '1200m': { label: '1200m', unit: 's', lowIsBest: true },
+      '1600m': { label: '1600m', unit: 's', lowIsBest: true },
+      '4x100m': { label: '4x100m', unit: 's', lowIsBest: true },
+      '4x400m': { label: '4x400m', unit: 's', lowIsBest: true },
+      'long_jump': { label: 'Long Jump', unit: 'm', lowIsBest: false },
+      'high_jump': { label: 'High Jump', unit: 'm', lowIsBest: false },
+      'triple_jump': { label: 'Triple Jump', unit: 'm', lowIsBest: false },
+      'shot_put': { label: 'Shot Put', unit: 'm', lowIsBest: false },
+      'discus_throw': { label: 'Discus', unit: 'm', lowIsBest: false },
+      'javelin_throw': { label: 'Javelin', unit: 'm', lowIsBest: false },
+    };
+    function formatMetric(val, eventId) {
+      if (isNaN(val) || val <= 0) return '-';
+      const conf = EVENT_CONFIG[eventId] || { unit: '', lowIsBest: true };
+      if (!conf.lowIsBest) return val.toFixed(2) + 'm';
+      if (val < 60) return val.toFixed(2) + 's';
+      const min = Math.floor(val / 60), sec = (val % 60).toFixed(2);
+      return `${min}:${sec.padStart(5, '0')}`;
+    }
+
+    function currentSportMeta() { return SPORTS.find(s => s.key === currentSport); }
+
+    function renderTabs() {
+      const el = document.getElementById('sportTabs');
+      el.innerHTML = SPORTS.map(s => `
+        <button class="sport-tab ${s.key === currentSport ? 'active' : ''}" style="--tab-color:${s.color}" onclick="switchSport('${s.key}')">${s.emoji} ${s.label}</button>
+      `).join('');
+      document.getElementById('sportTitle').textContent = `${currentSportMeta().label} Scorecards`;
+    }
+
+    function switchSport(key) {
+      currentSport = key;
+      openFixtureId = null;
+      athEventFilter = null;
+      renderTabs();
+      loadMatches();
+    }
+
+ async function loadMatches(isBackgroundRefresh = false) {
+  const container = document.getElementById('matchList');
+  const scrollY = window.scrollY;
+  if (!isBackgroundRefresh) {
+    container.innerHTML = '<div class="empty-state">Loading matches…</div>';
+  }
+  try {
+        const res = await fetch(`${API}/${currentSport}/fixtures`);
+        if (!res.ok) throw new Error('Fixtures request failed');
+        const { data } = await res.json();
+
+        updateStatTiles(data || []);
+
+        if (currentSport === 'athletics') {
+          renderAthletics(data || []);
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          container.innerHTML = '<div class="empty-state">No fixtures scheduled for this sport yet.</div>';
+          return;
+        }
+
+        const order = { live: 0, done: 1, upcoming: 2 };
+        const sorted = [...data].sort((a, b) => (order[a.status] ?? 3) - (order[b.status] ?? 3));
+        container.innerHTML = sorted.map(f => renderMatchCard(f)).join('');
+        if (isBackgroundRefresh) window.scrollTo(0, scrollY);
+      } catch (err) {
+        container.innerHTML = `<div class="empty-state">Couldn't reach the server. Make sure the backend is running on port 5001.</div>`;
+      }
+    }
+
+    function updateStatTiles(data) {
+      const live = data.filter(f => f.status === 'live').length;
+      const done = data.filter(f => f.status === 'done').length;
+      const upcoming = data.filter(f => f.status === 'upcoming').length;
+      document.getElementById('statLive').textContent = live;
+      document.getElementById('statDone').textContent = done;
+      document.getElementById('statUpcoming').textContent = upcoming;
+    }
+
+    function statusPillHtml(status) {
+      if (status === 'live') return `<span class="status-pill status-live"><span class="dot"></span>Live</span>`;
+      if (status === 'done') return `<span class="status-pill status-done">Completed</span>`;
+      return `<span class="status-pill status-upcoming">Upcoming</span>`;
+    }
+
+    function scoreSummary(f) {
+      const m = f.match || {};
+      if (currentSport === 'cricket') {
+        if (!m.innings || !m.innings.length) return 'Not started';
+        const inn = m.innings[m.currentInnings || 0];
+        const ov = Math.floor((inn.balls || 0) / 6) + '.' + ((inn.balls || 0) % 6);
+        return `${inn.runs || 0}/${inn.wickets || 0} (${ov} ov)`;
+      }
+      if (currentSport === 'football' || currentSport === 'hockey') {
+        if (f.status === 'upcoming') return 'Not started';
+        return `${m.goalsA ?? 0} – ${m.goalsB ?? 0}`;
+      }
+      if (currentSport === 'volleyball') {
+        if (f.status === 'upcoming') return 'Not started';
+        return `${m.setsA ?? 0} – ${m.setsB ?? 0} sets`;
+      }
+      if (currentSport === 'badminton') {
+        if (f.status === 'upcoming') return 'Not started';
+        return `${m.gamesA ?? 0} – ${m.gamesB ?? 0} games`;
+      }
+      if (currentSport === 'basketball') {
+        if (f.status === 'upcoming') return 'Not started';
+        return `${m.scoreA ?? 0} – ${m.scoreB ?? 0}`;
+      }
+      return '';
+    }
+
+    function renderMatchCard(f) {
+      const fid = f._id || f.id;
+      const isOpen = openFixtureId === fid;
+      const sportColor = currentSportMeta().color;
+      return `
+        <div class="match-card" style="--sport-color:${sportColor}">
+          <div class="match-summary" onclick="toggleMatch('${fid}')">
+            <div>
+              <div class="match-teams">${f.teamA} <span style="color:var(--ink-faint);font-size:15px;">vs</span> ${f.teamB}</div>
+              <div class="match-meta">📍 ${f.venue || 'TBD'} &nbsp;•&nbsp; ${f.date || ''} ${f.time || ''}</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:18px;">
+              <div class="match-score">${scoreSummary(f)}</div>
+              ${statusPillHtml(f.status)}
+            </div>
+          </div>
+          <div class="match-detail ${isOpen ? 'open' : ''}" id="detail-${fid}" style="--sport-color:${sportColor}">
+            ${isOpen ? renderDetail(f) : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleMatch(fid) {
+      openFixtureId = (openFixtureId === fid) ? null : fid;
+      scInningsIdx = 0;
+      loadMatches();
+    }
+
+    function renderDetail(f) {
+      const m = f.match || {};
+      if (f.status === 'upcoming') {
+        return `<div class="empty-state" style="padding:20px;">This match hasn't started yet.</div>`;
+      }
+      switch (currentSport) {
+        case 'cricket':    return renderCricketDetail(f, m);
+        case 'football':   return renderFootballHockeyDetail(f, m, 'half');
+        case 'hockey':      return renderFootballHockeyDetail(f, m, 'quarter');
+        case 'volleyball': return renderSetGameDetail(f, m, 'sets', 'currentSet', 'Set');
+        case 'badminton':  return renderSetGameDetail(f, m, 'games', 'currentGame', 'Game');
+        case 'basketball': return renderBasketballDetail(f, m);
+        default: return '';
+      }
+    }
+
+    function renderCricketDetail(f, m) {
+      if (!m.innings || !m.innings.length) return `<div class="empty-state" style="padding:20px;">Toss hasn't happened yet.</div>`;
+      if (scInningsIdx >= m.innings.length) scInningsIdx = 0;
+      const inn = m.innings[scInningsIdx];
+
+      const toggles = `<div class="inn-toggle">${m.innings.map((ii, idx) => `
+        <button class="${idx === scInningsIdx ? 'active' : ''}" onclick="setCricketInnings(${idx})">${ii.team} Innings</button>
+      `).join('')}</div>`;
+
+      const battingRows = (inn.batsmen || []).map((b, idx) => {
+        const isOut = (inn.dismissed || []).includes(idx);
+        const isBatting = f.status === 'live' && !isOut && (idx === inn.strikerIdx || idx === inn.nonStrikerIdx);
+        const sr = b.balls ? ((b.runs / b.balls) * 100).toFixed(1) : '0.0';
+        return `<tr><td>${b.name}${isBatting ? ' <span style="color:var(--live);">•</span>' : ''}${isOut ? ' <span style="color:var(--ink-faint);font-size:11px;">(out)</span>' : ''}</td><td class="num">${b.runs}</td><td class="num">${b.balls}</td><td class="num">${sr}</td></tr>`;
+      }).join('') || '<tr><td colspan="4" style="color:var(--ink-faint);">No batsmen recorded yet.</td></tr>';
+
+      const bowlingRows = (inn.bowlers || []).map(b => {
+      const oversFloat = (b.balls || 0) / 6;
+const econ = oversFloat ? (b.runs / oversFloat).toFixed(2) : '0.00';
+        return `<tr><td>${b.name}</td><td class="num">${Math.floor((b.balls||0)/6)}.${(b.balls||0)%6}</td><td class="num">${b.runs}</td><td class="num">${b.wickets}</td><td class="num">${econ}</td></tr>`;
+      }).join('') || '<tr><td colspan="5" style="color:var(--ink-faint);">No bowlers recorded yet.</td></tr>';
+
+      const extras = inn.extras || {};
+      const resultLine = f.status === 'done'
+        ? `<div class="detail-row"><strong>${f.score || 'Match completed'}</strong></div>`
+        : `<div class="detail-row"><strong>${inn.team} batting</strong> — ${f.overs || 20} overs match ${m.target ? `• Target ${m.target}` : ''}</div>`;
+
+      return `
+        ${resultLine}
+        ${toggles}
+        <div class="section-h">Batting — ${inn.team}</div>
+        <table class="sc-table"><thead><tr><th>Batsman</th><th class="num">R</th><th class="num">B</th><th class="num">SR</th></tr></thead><tbody>${battingRows}</tbody></table>
+        <div class="section-h">Bowling</div>
+        <table class="sc-table"><thead><tr><th>Bowler</th><th class="num">O</th><th class="num">R</th><th class="num">W</th><th class="num">Econ</th></tr></thead><tbody>${bowlingRows}</tbody></table>
+        <div class="section-h">Extras: ${extras.total || 0} (wd ${extras.wide || 0}, nb ${extras.noball || 0})</div>
+      `;
+    }
+
+    function setCricketInnings(idx) { scInningsIdx = idx; loadMatches(); }
+
+    function renderFootballHockeyDetail(f, m, periodKey) {
+      const scoreLine = `<div class="detail-row"><strong>${f.teamA} ${m.goalsA ?? 0} – ${m.goalsB ?? 0} ${f.teamB}</strong><span>${periodKey === 'half' ? `Half ${m.half || 1}` : `Quarter ${m.quarter || 1}`}</span></div>`;
+      const events = (m.events || []).slice().reverse();
+      const eventRows = events.map(ev => {
+        const icon = ev.type === 'goal' ? '⚽' : ev.type === 'yellow_card' ? '🟨' : ev.type === 'red_card' ? '🟥' : ev.type === 'green_card' ? '🟩' : '•';
+        return `<div class="ev"><span class="ev-min">${ev.minute ? ev.minute + "'" : ''}</span><span>${icon} <strong>${ev.team || ''}</strong> — ${ev.player || ev.type} ${ev.subtype ? `(${ev.subtype})` : ''}</span></div>`;
+      }).join('') || '<div class="empty-state" style="padding:14px;">No events logged yet.</div>';
+      return `${scoreLine}<div class="section-h">Match Events</div><div class="events-log">${eventRows}</div>`;
+    }
+
+    function renderSetGameDetail(f, m, scoreField, currentField, label) {
+      const scoreA = m[scoreField + 'A'] ?? 0;
+      const scoreB = m[scoreField + 'B'] ?? 0;
+      const scoreLine = `<div class="detail-row"><strong>${f.teamA} ${scoreA} – ${scoreB} ${f.teamB}</strong><span>${label} ${m[currentField] || 1} — Points ${m.pointsA ?? 0}-${m.pointsB ?? 0}</span></div>`;
+      const events = (m.events || []).slice().reverse();
+      const eventRows = events.map(ev => `<div class="ev"><span class="ev-min">${label.slice(0,1)}${ev.set || ev.game || ''}</span><span>${ev.text || ''}</span></div>`).join('')
+        || '<div class="empty-state" style="padding:14px;">No events logged yet.</div>';
+      return `${scoreLine}<div class="section-h">Match Log</div><div class="events-log">${eventRows}</div>`;
+    }
+
+    function renderBasketballDetail(f, m) {
+      const scoreLine = `<div class="detail-row"><strong>${f.teamA} ${m.scoreA ?? 0} – ${m.scoreB ?? 0} ${f.teamB}</strong><span>Quarter ${m.quarter || 1} — Fouls ${m.foulsA ?? 0}-${m.foulsB ?? 0}</span></div>`;
+      const events = (m.events || []).slice().reverse();
+      const eventRows = events.map(ev => `<div class="ev"><span class="ev-min">Q${ev.quarter || ''}</span><span>${ev.text || `${ev.team || ''} — ${ev.type || ''}`}</span></div>`).join('')
+        || '<div class="empty-state" style="padding:14px;">No events logged yet.</div>';
+      return `${scoreLine}<div class="section-h">Match Log</div><div class="events-log">${eventRows}</div>`;
+    }
+
+    async function renderAthletics(records) {
+      const container = document.getElementById('matchList');
+      const normalized = records.map(r => ({
+        event: r.event || r.teamA, athlete: r.athlete || r.teamB,
+        house: r.house || 'Gandhi', metric: r.metric || 0,
+      }));
+
+      if (!normalized.length) {
+        container.innerHTML = '<div class="empty-state">No results recorded yet.</div>';
+        return;
+      }
+
+      const eventsPresent = Object.keys(EVENT_CONFIG).filter(k => normalized.some(r => r.event === k));
+      if (!athEventFilter || !eventsPresent.includes(athEventFilter)) athEventFilter = eventsPresent[0];
+
+      const chips = eventsPresent.map(k => `
+        <button class="${k === athEventFilter ? 'active' : ''}" onclick="filterAthEvent('${k}')">${EVENT_CONFIG[k].label}</button>
+      `).join('');
+
+      const conf = EVENT_CONFIG[athEventFilter] || { unit: '', lowIsBest: true };
+      let rows = normalized.filter(r => r.event === athEventFilter);
+      rows.sort((a, b) => conf.lowIsBest ? a.metric - b.metric : b.metric - a.metric);
+
+      const tableRows = rows.map((r, idx) => `
+        <tr><td class="num">${idx + 1}</td><td>${r.athlete}</td><td>${r.house}</td><td class="num">${formatMetric(r.metric, athEventFilter)}</td></tr>
+      `).join('') || '<tr><td colspan="4" style="color:var(--ink-faint);">No results for this event yet.</td></tr>';
+
+      container.innerHTML = `
+        <div class="event-chip-row">${chips}</div>
+        <table class="sc-table">
+          <thead><tr><th>Rank</th><th>Athlete</th><th>House</th><th class="num">Performance</th></tr></thead>
+          <tbody>${tableRows}</tbody>
+        </table>
+      `;
+
+      window.filterAthEvent = (k) => { athEventFilter = k; renderAthletics(records); };
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('navToggle');
+      const nav = document.getElementById('mainNav');
+      if (toggle && nav) {
+        toggle.addEventListener('click', () => {
+          const isOpen = nav.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', String(isOpen));
+        });
+      }
+    });
+
+    renderTabs();
+    loadMatches();
+    setInterval(() => { if (currentSport !== 'athletics') loadMatches(true); }, 5000);
+  </script>
+
+</body>
+</html>
